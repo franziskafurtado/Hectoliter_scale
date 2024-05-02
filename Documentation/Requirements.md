@@ -1,4 +1,4 @@
-<h2>Functional software requirements</h2> <br>
+<h2>Functional software requirements</h2>
 <b>FR21.</b> The app must authenticate the user before letting them access the machine's information and function. <br> 
 <b>FR22.</b> The app should display a wait screen while the process is carried out. <br> 
 <b>FR23.</b> The app should display, at the end of the process, all information about the measurement. <br> 
@@ -8,7 +8,6 @@
 <b>FR27</b> The app’s start button must only work if the machine is available (has returned the measurement information from the previous request). <br> 
 
 <h2>Non-functional software requirements</h2>
- <br> 
 <b>NFR13.</b>The app will be developed in Ionic framework.<br> 
 <b>NFR14.</b>The app will have an initial screen after logging in, to choose between the options of looking at the history and starting a new measurement process.<br> 
 <b>NFR15.</b>The database must be a SQL one.<br> 
