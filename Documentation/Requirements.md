@@ -1,12 +1,12 @@
-<h2>Functional software requirements</h2>
+<h2>Functional software requirements</h2> <br>  <br> 
 
-<b>FR21.</b> The app must authenticate the user before letting them access the machine's information and function.
-<b>FR22.</b> The app should display a wait screen while the process is carried out.
-<b>FR23.</b> The app should display, at the end of the process, all information about the measurement.
-<b>FR24.</b> The app must have a button to request the start of a process.
-<b>FR25.</b> The app must have a history screen, that shows all previous measurement results.
-<b>FR26.</b> The app must allow the user to filter the history screen data by dates and display a list of measurements within that period.
-<b>FR27</b> The app’s start button must only work if the machine is available (has returned the measurement information from the previous request).
+<b>FR21.</b> The app must authenticate the user before letting them access the machine's information and function. <br> 
+<b>FR22.</b> The app should display a wait screen while the process is carried out. <br> 
+<b>FR23.</b> The app should display, at the end of the process, all information about the measurement. <br> 
+<b>FR24.</b> The app must have a button to request the start of a process. <br> 
+<b>FR25.</b> The app must have a history screen, that shows all previous measurement results. <br> 
+<b>FR26.</b> The app must allow the user to filter the history screen data by dates and display a list of measurements within that period. <br> 
+<b>FR27</b> The app’s start button must only work if the machine is available (has returned the measurement information from the previous request). <br> 
 
 <h2>Non-functional software requirements</h2>
 
