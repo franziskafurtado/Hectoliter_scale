@@ -16,3 +16,5 @@ Software design with UML diagrams (use-case, sequence, activity, classes, deploy
 <b>NFR16.</b>The database must be accessible for the app and the machine via REST API.<br> 
 <b>NFR17.</b>The REST API must be developed in the Python language.<br> 
 <b>NFR18.</b>The database and API must be hosted in the cloud.<br> 
+
+<h2>UML diagrams</h2>
