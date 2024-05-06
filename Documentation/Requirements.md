@@ -18,3 +18,9 @@ Software design with UML diagrams (use-case, sequence, activity, classes, deploy
 <b>NFR18.</b>The database and API must be hosted in the cloud.<br> 
 
 <h2>UML diagrams</h2>
+
+<b>Use Case</b>
+
+<div align="center">
+    <img  width="500" src="use-case.jpeg"/>
+</div>
