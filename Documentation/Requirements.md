@@ -24,3 +24,11 @@ Software design with UML diagrams (use-case, sequence, activity, classes, deploy
 <div align="center">
     <img  width="800" src="use-case.jpeg"/>
 </div>
+
+<b>teste</b>
+
+<div align="center">
+    <img  width="800" src="deploy.drawio"/>
+</div>
+
+
