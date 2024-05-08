@@ -1,4 +1,4 @@
-Software design with UML diagrams (use-case, sequence, activity, classes, deployment, entity-relationship), for firmware, frontend and backend, and mobile app.
+<h2>Software Documentation</h2>
 
 <h2>Functional software requirements</h2>
 <b>FR21.</b> The app must authenticate the user before letting them access the machine's information and function. <br> 
@@ -19,7 +19,7 @@ Software design with UML diagrams (use-case, sequence, activity, classes, deploy
 
 <h2>UML diagrams</h2>
 
-<b>App</b>
+<h2><b>App</b></h2>
 
 <b>Use Case</b>
 
@@ -39,7 +39,49 @@ Software design with UML diagrams (use-case, sequence, activity, classes, deploy
     <img  width="800" src="sequenciadetelas.jpeg"/>
 </div>
 
+<b>Sequence Diagram - Main</b>
+
+<div align="center">
+    <img  width="800" src="sequence_diagram_main.jpeg"/>
+</div>
+
 <br> 
+
+<b>Sequence Diagram - History</b>
+
+<div align="center">
+    <img  width="800" src="sequence_diagram_history.jpeg"/>
+</div>
+
+<br> 
+<b>App Screens - History</b>
+<div align="center">
+    <img  width="450" src="1.jpg"/>
+</div>
+<div align="center">
+    <img  width="450" src="2.jpg"/>
+</div>
+<div align="center">
+    <img  width="450" src="3.jpg"/>
+</div>
+<div align="center">
+    <img  width="450" src="4.jpg"/>
+</div>
+<div align="center">
+    <img  width="450" src="5.jpg"/>
+</div>
+<div align="center">
+    <img  width="450" src="6.jpg"/>
+</div>
+<div align="center">
+    <img  width="450" src="7.jpg"/>
+</div>
+<div align="center">
+    <img  width="450" src="8.jpg"/>
+</div>
+<div align="center">
+    <img  width="450" src="9.jpg"/>
+</div>
 
 <h3>Back</h3>
 
@@ -61,4 +103,13 @@ Software design with UML diagrams (use-case, sequence, activity, classes, deploy
     <img  width="800" src="seqmachine.jpg"/>
 </div>
 
+<br>
 
+<h3>App Error Codes</h3><br> 
+<b>10.</b> Servo Motor 1 is stuck<br> 
+<b>20.</b> Servo Motor 2 is stuck<br> 
+<b>30.</b> Stepper motor is stuck<br> 
+<b>40.</b> Return container has been removed<br> 
+<b>50.</b> The sample is not enough<br>
+<b>60.</b> Collecting container was opened<br>  
+<b>70.</b> Connection error<br> 
