@@ -82,5 +82,6 @@
 <b>20.</b> Servo Motor 2 is stuck<br> 
 <b>30.</b> Stepper motor is stuck<br> 
 <b>40.</b> Return container has been removed<br> 
-<b>50.</b> The sample is not enough<br> 
-<b>60.</b> Connection error<br> 
+<b>50.</b> The sample is not enough<br>
+<b>60.</b> Collecting container was opened<br>  
+<b>70.</b> Connection error<br> 
