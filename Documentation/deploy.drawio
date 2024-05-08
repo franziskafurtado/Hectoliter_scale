@@ -1,0 +1,43 @@
+<mxfile host="app.diagrams.net" modified="2024-05-05T21:09:08.510Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36" etag="QOBW20XXgJx6fUg4-Byg" version="24.3.1" type="google">
+  <diagram name="Página-1" id="UICzb-Efr3KQPmlA4pud">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="zCJmfCgpJViqKyEr8dMd-1" value="&amp;lt;&amp;lt;device&amp;gt;&amp;gt;Server" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="100" y="130" width="240" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="zCJmfCgpJViqKyEr8dMd-2" value="«artifact»&lt;br&gt;&lt;b&gt;API&lt;/b&gt;" style="html=1;whiteSpace=wrap;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="120" y="180" width="80" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="zCJmfCgpJViqKyEr8dMd-3" value="«artifact»&lt;br&gt;&lt;b&gt;SQL database&lt;/b&gt;" style="html=1;whiteSpace=wrap;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="220" y="180" width="90" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="zCJmfCgpJViqKyEr8dMd-4" value="&amp;lt;&amp;lt;device&amp;gt;&amp;gt;UserDevice" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="490" y="50" width="240" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="zCJmfCgpJViqKyEr8dMd-5" value="«artifact»&lt;br&gt;&lt;b&gt;App&lt;/b&gt;" style="html=1;whiteSpace=wrap;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="565" y="105" width="90" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="zCJmfCgpJViqKyEr8dMd-6" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0;exitDx=75;exitDy=0;exitPerimeter=0;entryX=0;entryY=0;entryDx=85;entryDy=240;entryPerimeter=0;strokeColor=default;endArrow=none;endFill=0;" edge="1" parent="1" source="zCJmfCgpJViqKyEr8dMd-1" target="zCJmfCgpJViqKyEr8dMd-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="zCJmfCgpJViqKyEr8dMd-7" value="https" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;rotation=-25;" vertex="1" parent="1">
+          <mxGeometry x="370" y="140" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="zCJmfCgpJViqKyEr8dMd-8" value="&amp;lt;&amp;lt;device&amp;gt;&amp;gt;Machine" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="490" y="280" width="240" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="zCJmfCgpJViqKyEr8dMd-9" value="«artifact»&lt;br&gt;&lt;b&gt;ESP32&lt;/b&gt;" style="html=1;whiteSpace=wrap;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="565" y="335" width="90" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="zCJmfCgpJViqKyEr8dMd-10" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0;exitDx=75;exitDy=0;exitPerimeter=0;entryX=0;entryY=0;entryDx=85;entryDy=240;entryPerimeter=0;endArrow=none;endFill=0;" edge="1" parent="1" source="zCJmfCgpJViqKyEr8dMd-1" target="zCJmfCgpJViqKyEr8dMd-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="zCJmfCgpJViqKyEr8dMd-11" value="https" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;rotation=45;" vertex="1" parent="1">
+          <mxGeometry x="390" y="250" width="60" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

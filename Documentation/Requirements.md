@@ -19,13 +19,31 @@ Software design with UML diagrams (use-case, sequence, activity, classes, deploy
 
 <h2>UML diagrams</h2>
 
+<b>App</b>
+
 <b>Use Case</b>
 
 <div align="center">
     <img  width="800" src="use-case.jpeg"/>
 </div>
 
-<b>teste</b>
+<b>Activities</b>
+
+<div align="center">
+    <img  width="800" src="deploy.drawio"/>
+</div>
+
+<b>Screen Sequence</b>
+
+<div align="center">
+    <img  width="800" src="sequenciadetelas.jpeg"/>
+</div>
+
+<br> 
+
+<b>Back</b>
+
+<b>Activities</b>
 
 <div align="center">
     <img  width="800" src="deploy.drawio"/>
