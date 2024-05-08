@@ -32,7 +32,7 @@ Software design with UML diagrams (use-case, sequence, activity, classes, deploy
 <div align="center">
     <img  width="800" src="Atividade.jpeg"/>
 </div>
-<br>
+
 <b>Screen Sequence</b>
 
 <div align="center">
