@@ -19,7 +19,7 @@ Software design with UML diagrams (use-case, sequence, activity, classes, deploy
 
 <h2>UML diagrams</h2>
 
-<b>App</b>
+<h2><b>App</b></h2>
 
 <b>Use Case</b>
 
@@ -37,6 +37,22 @@ Software design with UML diagrams (use-case, sequence, activity, classes, deploy
 
 <div align="center">
     <img  width="800" src="sequenciadetelas.jpeg"/>
+</div>
+
+<br> 
+
+<b>Sequence Diagram - Main</b>
+
+<div align="center">
+    <img  width="800" src="sequence_diagram_main.jpeg"/>
+</div>
+
+<br> 
+
+<b>Sequence Diagram - History</b>
+
+<div align="center">
+    <img  width="800" src="sequence_diagram_history.jpeg"/>
 </div>
 
 <br> 
