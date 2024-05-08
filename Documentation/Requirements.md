@@ -26,13 +26,13 @@ Software design with UML diagrams (use-case, sequence, activity, classes, deploy
 <div align="center">
     <img  width="800" src="use-case.jpeg"/>
 </div>
-
+<br>
 <b>Activities</b>
 
 <div align="center">
     <img  width="800" src="Atividade.jpeg"/>
 </div>
-
+<br>
 <b>Screen Sequence</b>
 
 <div align="center">
@@ -41,20 +41,20 @@ Software design with UML diagrams (use-case, sequence, activity, classes, deploy
 
 <br> 
 
-<b>Back</b>
+<h3>Back</h3>
 
 <b>Deploy</b>
 
 <div align="center">
     <img  width="800" src="deploy.jpg"/>
 </div>
-
+<br>
 <b>Relational</b>
 
 <div align="center">
     <img  width="800" src="relacional.jpg"/>
 </div>
-
+<br>
 <b>Seq Machine</b>
 
 <div align="center">
