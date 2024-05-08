@@ -116,3 +116,10 @@
 <b>50.</b> The sample is not enough<br>
 <b>60.</b> Collecting container was opened<br>  
 <b>70.</b> Connection error<br> 
+
+<br>
+
+<b>Error notification sample</b>
+<div align="center">
+    <img  width="100" src="exerro.jpg"/>
+</div>
