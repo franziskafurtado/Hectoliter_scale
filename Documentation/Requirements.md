@@ -54,6 +54,37 @@
 </div>
 
 <br> 
+<b>App Screens - History</b>
+<div align="center">
+    <img  width="800" src="1.jpg"/>
+</div>
+<div align="center">
+    <img  width="800" src="2.jpg"/>
+</div>
+<div align="center">
+    <img  width="800" src="3.jpg"/>
+</div>
+<div align="center">
+    <img  width="800" src="4.jpg"/>
+</div>
+<div align="center">
+    <img  width="800" src="5.jpg"/>
+</div>
+<div align="center">
+    <img  width="800" src="6.jpg"/>
+</div>
+<div align="center">
+    <img  width="800" src="7.jpg"/>
+</div>
+<div align="center">
+    <img  width="800" src="8.jpg"/>
+</div>
+<div align="center">
+    <img  width="800" src="9.jpg"/>
+</div>
+<div align="center">
+    <img  width="800" src="10.jpg"/>
+</div>
 
 <h3>Back</h3>
 
