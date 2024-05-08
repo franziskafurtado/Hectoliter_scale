@@ -32,7 +32,7 @@
 <div align="center">
     <img  width="800" src="Atividade.jpeg"/>
 </div>
-
+<br>
 <b>Screen Sequence</b>
 
 <div align="center">
@@ -77,10 +77,10 @@
 
 <br>
 
-<h3>App Error Codes</h3>
-10. Servo Motor 1 is stuck
-20. Servo Motor 2 is stuck
-30. Stepper motor is stuck
-40. Return container has been removed
-50. The sample is not enough
-60. Connection error
+<h3>App Error Codes</h3><br> 
+10. Servo Motor 1 is stuck<br> 
+20. Servo Motor 2 is stuck<br> 
+30. Stepper motor is stuck<br> 
+40. Return container has been removed<br> 
+50. The sample is not enough<br> 
+60. Connection error<br> 
