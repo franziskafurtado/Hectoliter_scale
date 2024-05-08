@@ -39,8 +39,6 @@ Software design with UML diagrams (use-case, sequence, activity, classes, deploy
     <img  width="800" src="sequenciadetelas.jpeg"/>
 </div>
 
-<br> 
-
 <b>Sequence Diagram - Main</b>
 
 <div align="center">
