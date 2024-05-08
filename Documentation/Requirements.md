@@ -78,9 +78,9 @@
 <br>
 
 <h3>App Error Codes</h3><br> 
-10. Servo Motor 1 is stuck<br> 
-20. Servo Motor 2 is stuck<br> 
-30. Stepper motor is stuck<br> 
-40. Return container has been removed<br> 
-50. The sample is not enough<br> 
-60. Connection error<br> 
+<b>10.</b> Servo Motor 1 is stuck<br> 
+<b>20.</b> Servo Motor 2 is stuck<br> 
+<b>30.</b> Stepper motor is stuck<br> 
+<b>40.</b> Return container has been removed<br> 
+<b>50.</b> The sample is not enough<br> 
+<b>60.</b> Connection error<br> 
