@@ -75,4 +75,12 @@ Software design with UML diagrams (use-case, sequence, activity, classes, deploy
     <img  width="800" src="seqmachine.jpg"/>
 </div>
 
+<br>
 
+<h3>App Error Codes</h3>
+10. Servo Motor 1 is stuck
+20. Servo Motor 2 is stuck
+30. Stepper motor is stuck
+40. Return container has been removed
+50. The sample is not enough
+60. Connection error
