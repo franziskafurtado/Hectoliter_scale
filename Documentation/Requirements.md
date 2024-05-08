@@ -59,31 +59,31 @@
     <img  width="450" src="1.jpg"/>
 </div>
 <div align="center">
-    <img  width="800" src="2.jpg"/>
+    <img  width="450" src="2.jpg"/>
 </div>
 <div align="center">
-    <img  width="800" src="3.jpg"/>
+    <img  width="450" src="3.jpg"/>
 </div>
 <div align="center">
-    <img  width="800" src="4.jpg"/>
+    <img  width="450" src="4.jpg"/>
 </div>
 <div align="center">
-    <img  width="800" src="5.jpg"/>
+    <img  width="450" src="5.jpg"/>
 </div>
 <div align="center">
-    <img  width="800" src="6.jpg"/>
+    <img  width="450" src="6.jpg"/>
 </div>
 <div align="center">
-    <img  width="800" src="7.jpg"/>
+    <img  width="450" src="7.jpg"/>
 </div>
 <div align="center">
-    <img  width="800" src="8.jpg"/>
+    <img  width="450" src="8.jpg"/>
 </div>
 <div align="center">
-    <img  width="800" src="9.jpg"/>
+    <img  width="450" src="9.jpg"/>
 </div>
 <div align="center">
-    <img  width="800" src="10.jpg"/>
+    <img  width="450" src="10.jpg"/>
 </div>
 
 <h3>Back</h3>
