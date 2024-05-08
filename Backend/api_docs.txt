@@ -1,0 +1,82 @@
+Atualização de status idle
+Enviar
+{
+  status: 0
+  uuid: uuid da máquina
+  secret: secret da maquina
+}
+
+Resposta
+{
+  uuid: uuid da maquina
+  status: status atual da maquina
+  lastUpdate: horário da altima atualização formato iso
+  newProcess: true/false -> flag para iniciar processo
+}
+
+Atualização de status em processamento
+Enviar
+{
+  status: 1
+  uuid: uuid da máquina
+  secret: secret da maquina
+}
+
+Resposta
+{
+  uuid: uuid da maquina
+  status: status atual da maquina
+  lastUpdate: horário da altima atualização formato iso
+  runningProcess: Id do processo em execução
+}
+
+Atualização de erros que parem a execução da máquina
+Enviar
+{
+  status: 2
+  uuid: uuid da máquina
+  secret: secret da maquina
+  errors: [] -> lista com códigos de erro (a definir)
+}
+
+Resposta
+{
+  uuid: uuid da maquina
+  status: status atual da maquina
+  lastUpdate: horário da altima atualização formato iso
+  runningProcess: Id do processo em execução
+  errors: [
+    {
+      id: id do erro
+      description: descrição do erro
+    }
+  ]
+}
+
+Atualização de processo finalizado
+Enviar
+{
+  status: 3
+  uuid: uuid da máquina
+  secret: secret da maquina
+  process: {
+    status: 1 - finalizado com sucesso, 2 - finalizado com erros
+    weight: peso medido
+    hectoliter: peso hectolitrico calculado
+    errors: [] -> Se status == 2, lista com códigos de erro (a definir)
+  }
+}
+
+Resposta
+{
+  uuid: uuid da maquina
+  status: status atual da maquina
+  lastUpdate: horário da altima atualização formato iso
+  runningProcess: Id do processo em execução
+  errors: [
+    {
+      id: id do erro
+      description: descrição do erro
+    }
+  ]
+}
