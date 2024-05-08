@@ -1,4 +1,4 @@
-Software design with UML diagrams (use-case, sequence, activity, classes, deployment, entity-relationship), for firmware, frontend and backend, and mobile app.
+<h2>Software Documentation</h2>
 
 <h2>Functional software requirements</h2>
 <b>FR21.</b> The app must authenticate the user before letting them access the machine's information and function. <br> 
