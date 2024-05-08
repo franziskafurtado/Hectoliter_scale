@@ -56,7 +56,7 @@
 <br> 
 <b>App Screens - History</b>
 <div align="center">
-    <img  width="800" src="1.jpg"/>
+    <img  width="450" src="1.jpg"/>
 </div>
 <div align="center">
     <img  width="800" src="2.jpg"/>
