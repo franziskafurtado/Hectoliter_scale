@@ -49,39 +49,10 @@
 </div>
 
 <br> 
-<b>App Screens - History</b>
+<b>App Screens</b>
 <div align="center">
-    <img  width="450" src="1.jpg"/>
+https://github.com/franziskafurtado/Hectoliter_scale/assets/23341934/547683c8-a88b-47fe-85bb-2c2e4dc3aa42
 </div>
-<div align="center">
-    <img  width="450" src="2.jpg"/>
-</div>
-<div align="center">
-    <img  width="450" src="3.jpg"/>
-</div>
-<div align="center">
-    <img  width="450" src="4.jpg"/>
-</div>
-<div align="center">
-    <img  width="450" src="5.jpg"/>
-</div>
-<div align="center">
-    <img  width="450" src="6.jpg"/>
-</div>
-<div align="center">
-    <img  width="450" src="7.jpg"/>
-</div>
-<div align="center">
-    <img  width="450" src="8.jpg"/>
-</div>
-<div align="center">
-    <video  width="800" src="Hectoliterapp.mp4"></video>
-</div>
-
-<video width="320" height="240" controls>
-  <source src="Hectoliterapp.mp4" type="video/mp4">
-</video>
-
 <h3>Back</h3>
 
 <b>Deploy</b>
@@ -112,9 +83,6 @@
 <b>50.</b> The sample is not enough<br>
 <b>60.</b> Collecting container was opened<br>  
 <b>70.</b> Connection error<br> 
-
-
-https://github.com/franziskafurtado/Hectoliter_scale/assets/23341934/547683c8-a88b-47fe-85bb-2c2e4dc3aa42
 
 
 
