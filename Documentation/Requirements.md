@@ -78,6 +78,10 @@
     <video  width="800" src="Hectoliterapp.mp4"></video>
 </div>
 
+<video width="320" height="240" controls>
+  <source src="Hectoliterapp.mp4" type="video/mp4">
+</video>
+
 <h3>Back</h3>
 
 <b>Deploy</b>
