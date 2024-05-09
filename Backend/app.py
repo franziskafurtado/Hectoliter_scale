@@ -141,6 +141,7 @@ def machineSync():
         process.weight = weight
         process.hectoliter = hectoliter
         machine.status = 3
+        machine.lastUpdate = datetime.datetime.now()
         machine.runningProcess = None
         process.save()
         machine.save()
@@ -411,4 +412,4 @@ def startProcess(id):
     machine.newProcess = True 
     machine.save()
 
-    return "ok"
+    return flask.jsonify({"message":"ok"})
