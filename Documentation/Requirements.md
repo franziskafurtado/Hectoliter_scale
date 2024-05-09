@@ -112,3 +112,12 @@
 <b>50.</b> The sample is not enough<br>
 <b>60.</b> Collecting container was opened<br>  
 <b>70.</b> Connection error<br> 
+
+
+https://github.com/franziskafurtado/Hectoliter_scale/assets/23341934/547683c8-a88b-47fe-85bb-2c2e4dc3aa42
+
+
+
+
+
+
