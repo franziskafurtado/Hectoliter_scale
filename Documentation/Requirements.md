@@ -79,7 +79,44 @@ https://github.com/franziskafurtado/Hectoliter_scale/assets/23341934/ccec0c3b-bf
     <img  width="800" src="seqmachine.jpg"/>
 </div>
 
+
 <br>
+
+<h3>Firmware</h3>
+
+<b>Use Case</b>
+<br>
+![UseCaseDiagram_FirmwareView](https://github.com/franziskafurtado/Hectoliter_scale/assets/47851647/0f07d758-3e74-47b4-a4dd-6b814fd3c7d5)
+
+<br>
+
+<b>Full Firmware State Machine Chart</b>
+<br>
+![FirmwareLogic_GeneralIdea](https://github.com/franziskafurtado/Hectoliter_scale/assets/47851647/18858bcd-5b43-4fd9-b48c-5b29b5475449)
+
+<br>
+
+<b>Collecting Phase State Flowchart Execution</b>
+<br>
+![FirmwareLogic_CollectingPhase](https://github.com/franziskafurtado/Hectoliter_scale/assets/47851647/34785664-571e-4ccd-855c-4cc4352da1fc)
+
+<br>
+
+<b>Measuring Phase State Flowchart Execution</b>
+<br>
+![FirmwareLogic_MeasuringPhase](https://github.com/franziskafurtado/Hectoliter_scale/assets/47851647/a5755371-43c4-4b51-8ff7-1f527b0c15d1)
+
+<br>
+
+<b>Returning Phase State Flowchart Execution</b>
+<br>
+![FirmwareLogic_ReturningPhase](https://github.com/franziskafurtado/Hectoliter_scale/assets/47851647/4e33c36a-4d33-4796-a1cf-1c40997d7736)
+
+<br>
+
+
+<br>
+
 
 <h3>App Error Codes</h3><br> 
 <b>10.</b> Servo Motor 1 is stuck<br> 
