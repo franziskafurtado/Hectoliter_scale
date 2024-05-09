@@ -9,7 +9,7 @@ import json
 import bcrypt
 
 app = flask.Flask(__name__)
-secret_key = '52d3f853c19f8b63c0918c126422aa2d99b1aef33ec63d41dea4fadf19406e54'
+secret_key = 'MIIBVgIBADANBgkqhkiG9w0BAQEFAASCAUAwggE8AgEAAkEAtMg2igXuDcgpOTkeRvEppjaNy72FzNNP8wV9dS/Pux3QqzdheqP+qSJCtzS2SVV9P2VdYGUuOAuaLj1vnGcifwIDAQABAkEAn0vcYvqerR421OlzuGdAn+lqQKEbiUSaKjYoOl6K2QENgY9t9C12CREC0Wp+ypZhJNp7DJdZUSJVJ+cd04GjYQIhANcniN621s8Qz7LjXiWHZ12kcyP2jCWYHnx+EyisNn/tAiEA1xowRv3FTZGoz9R9CNpgsUdgPEE2cERygVncemvEppsCIQCiMaaHprQm4xiAVdD6X6n3uOon2UvrZ1LMLMrKpZBsPQIgeIzTy6WDgxKEEl3a6TBCCnifBYXitY6WwcmT2AQ3xMsCIQC7BePcXT47u9fUG1Xa7MYYpKW1wY5iOQQ8FevqRNYNIA=='
 
 @app.route('/machineSync', methods=['GET','POST'])
 def machineSync():
@@ -44,7 +44,7 @@ def machineSync():
 
     elif status == 1:
         if not machine.runningProcess:
-            return flask.jsonify({'error':'There is no process set as running'}), 401
+            return flask.jsonify({'error':'There is no process set as running'}), 400
         machine.status = 1
         machine.lastUpdate = datetime.datetime.now()
         machine.newProcess = False
@@ -58,12 +58,12 @@ def machineSync():
             try:
               error = int(error)
             except:
-              return flask.jsonify({'error':'Error code '+ error+ ' invalid'}), 401
+              return flask.jsonify({'error':'Error code '+ error+ ' invalid'}), 400
 
             try:
                 err = database.Error.get(id=error)
             except database.peewee.DoesNotExist:
-                return flask.jsonify({'error':'Error code '+str(error)+' invalid'}), 401
+                return flask.jsonify({'error':'Error code '+str(error)+' invalid'}), 400
 
         for error in flask.request.json['errors']:
             machineerror = database.MachineError()
@@ -77,27 +77,34 @@ def machineSync():
         
     elif status == 3:
         if not machine.runningProcess:
-           return flask.jsonify({'error':'There is no process set as running'}), 401
+           return flask.jsonify({'error':'There is no process set as running'}), 400
 
         try:
             process = database.Process.get(id=machine.runningProcess)
         except database.peewee.DoesNotExist:
-            return flask.jsonify({'error':'There is no process set as running'}), 401
+            return flask.jsonify({'error':'There is no process set as running'}), 400
 
         if process.status != 0:
-            return flask.jsonify({'error':'Process already finished'}), 401
+            return flask.jsonify({'error':'Process already finished'}), 400
 
         if not 'process' in flask.request.json or not isinstance(flask.request.json['process'], dict):
-            return flask.jsonify({'error':'Process must be sent'}), 401
+            return flask.jsonify({'error':'Process must be sent'}), 400
 
         processData = flask.request.json['process']
-        if (not 'status' in processData or
-           not re.match("^(1|2)$",str(int(processData['status']))) or
-           not 'weight' in processData or
+
+        try:
+            processStatus = int(processData['status'])
+        except:
+            return flask.jsonify({'error': 'Invalid process status'}), 400
+
+        if not re.match("^(1|2)$",str(processStatus)):
+            return flask.jsonify({'error': 'Invalid process status'}), 400
+
+        if (not 'weight' in processData or
            processData['weight'] == '' or
            not 'hectoliter' in processData or
            processData['hectoliter'] == ''):
-            return flask.jsonify({'error':'Process parameters are missing'}), 401
+            return flask.jsonify({'error':'Process parameters are missing'}), 400
 
         if int(processData['status'] == 2) and not 'errors' in processData or not isinstance(processData['errors'], list) or len(processData['errors']) == 0:
             return flask.jsonify({'error':'No errors codes were sent'}), 400
@@ -106,34 +113,35 @@ def machineSync():
             try:
               error = int(error)
             except:
-              return flask.jsonify({'error':'Error code '+ error+ ' invalid'}), 401
+              return flask.jsonify({'error':'Error code '+ error+ ' invalid'}), 400
 
             try:
                 err = database.Error.get(id=error)
             except database.peewee.DoesNotExist:
-                return flask.jsonify({'error':'Error code '+str(error)+' invalid'}), 401
+                return flask.jsonify({'error':'Error code '+str(error)+' invalid'}), 400
 
         try:
             weight = float(processData['weight'])
         except:
-            return flask.jsonify({'error':'weight invalid'}), 401
+            return flask.jsonify({'error':'weight invalid'}), 400
 
         try:
             hectoliter = float(processData['hectoliter'])
         except:
-            return flask.jsonify({'error':'hectoliter invalid'}), 401
+            return flask.jsonify({'error':'hectoliter invalid'}), 400
 
         for error in processData['errors']:
             processerror = database.ProcessError()
-            processerror.machine = process
+            processerror.process = process
             processerror.error = database.Error.get(id=int(error))
             processerror.save()
 
-        process.status = status
+        process.status = processStatus
         process.timestamp = datetime.datetime.now()
         process.weight = weight
         process.hectoliter = hectoliter
         machine.status = 3
+        machine.runningProcess = None
         process.save()
         machine.save()
 
@@ -237,14 +245,170 @@ def login():
         "token": generateJWT(user)
     })
 
-@app.route('/history')
-def getHistory():
+@app.route('/machines')
+def getMachines():
     if not 'Token' in flask.request.headers:
         return flask.jsonify({'error':'User not authenticated'}), 401
 
-    #try:
-    checkJWT(flask.request.headers['Token'])
-    #except:
-    #    return flask.jsonify({'error':'User not authenticated'}), 401
+    try:
+        checkJWT(flask.request.headers['Token'])
+    except Exception as e:
+        return flask.jsonify({'error': str(e)}), 401
+
+    ret = []
+    machines = database.Machine.select()
+
+    for machine in machines:
+        ret.append({
+            "id": machine.id,
+            "status": machine.status,
+            "lastUpdate": machine.lastUpdate.isoformat()
+        })
+
+    return flask.jsonify(ret)
+
+@app.route('/machines/<int:id>')
+def getMachine(id):
+    if not 'Token' in flask.request.headers:
+        return flask.jsonify({'error':'User not authenticated'}), 401
+
+    try:
+        checkJWT(flask.request.headers['Token'])
+    except Exception as e:
+        return flask.jsonify({'error': str(e)}), 401
+
+    try:
+        machine = database.Machine.get(id=id)
+    except database.peewee.DoesNotExist:
+        return flask.jsonify({'error':'Machine not found'}), 404
+
+    ret = {
+        "id": machine.id,
+        "status": machine.status,
+        "lastUpdate": machine.lastUpdate.isoformat()
+    }
+
+    if machine.status == 2:
+        retErr = []
+        for error in machine.errors:
+            retErr.append({
+                "id": error.error.id,
+                "description": error.error.description,
+            })
+
+        ret['errors'] = retErr
+    if machine.runningProcess:
+        ret['runningProcess'] = machine.runningProcess
+    return flask.jsonify(ret)
+
+@app.route('/processes')
+def getProcesses():
+    if not 'Token' in flask.request.headers:
+        return flask.jsonify({'error':'User not authenticated'}), 401
+
+    try:
+        checkJWT(flask.request.headers['Token'])
+    except Exception as e:
+        return flask.jsonify({'error': str(e)}), 401
+
+    processes = database.Process.select().where(database.Process.status!=0)
+
+    if 'start' in flask.request.args and flask.request.args['start'] != '':
+        try:
+            startDate = datetime.datetime.strptime(flask.request.args['start'], '%Y-%m-%d')
+        except:
+            return flask.jsonify({'error':'Invalid start date'}), 401
+
+        processes = processes.where(database.Process.timestamp>=startDate)
+
+    if 'end' in flask.request.args and flask.request.args['end'] != '':
+        try:
+            endDate = datetime.datetime.strptime(flask.request.args['end'], '%Y-%m-%d') + datetime.timedelta(days=1) #Coloca o dia seguinte as 0:00 para pegar tudo que for antes disso
+        except:
+            return flask.jsonify({'error':'Invalid end date'}), 401
+
+        processes = processes.where(database.Process.timestamp<endDate)
+
+    ret = []
+
+    for process in processes:
+        ret.append({
+            "id": process.id,
+            "status": process.status,
+            "timestamp": process.timestamp.isoformat(),
+            "user": process.user.name
+        })
+
+    return flask.jsonify(ret)
+
+@app.route('/processes/<int:id>')
+def getProcess(id):
+    if not 'Token' in flask.request.headers:
+        return flask.jsonify({'error':'User not authenticated'}), 401
+
+    try:
+        checkJWT(flask.request.headers['Token'])
+    except Exception as e:
+        return flask.jsonify({'error': str(e)}), 401
+
+    try:
+        process = database.Process.get(id=id)
+    except database.peewee.DoesNotExist:
+        return flask.jsonify({'error':'Process not found'}), 404
+
+    ret = {
+        "id": process.id,
+        "status": process.status,
+        "timestamp": process.timestamp.isoformat(),
+        "user": process.user.name
+    }
+
+    errList = []
+    if process.status == 2:
+        for error in process.errors:
+            errList.append({
+                "id": error.error.id,
+                "description": error.error.description,
+            })
+        ret['error'] = errList
+
+    return flask.jsonify(ret)
+
+@app.route('/machines/<int:id>/start', methods=['GET', 'POST'])
+def startProcess(id):
+    if flask.request.method == 'GET':
+       return flask.jsonify({'error':'Process start must be done via POST'}), 400
+
+    if not 'Token' in flask.request.headers:
+        return flask.jsonify({'error':'User not authenticated'}), 401
+
+    try:
+        user = checkJWT(flask.request.headers['Token'])
+    except Exception as e:
+        return flask.jsonify({'error': str(e)}), 401
+
+    try:
+        machine = database.Machine.get(id=id)
+    except database.peewee.DoesNotExist:
+        return flask.jsonify({'error':'Machine not found'}), 404
+
+    timeout = datetime.datetime.now() - machine.lastUpdate
+
+    if timeout.total_seconds() > 600:
+        return flask.jsonify({'error':'Machine is offline'}), 409
+
+    if not (machine.status == 0 or machine.status == 3):
+        return flask.jsonify({'error':'Machine is not available to start a new process'})
+
+    #Create new process
+    process = database.Process()
+    process.status = 0
+    process.machine = machine
+    process.user = user
+    process.save()
+
+    machine.runningProcess = process.id
+    machine.newProcess = True 
+    machine.save()
 
     return "ok"

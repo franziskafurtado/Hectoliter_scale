@@ -37,7 +37,7 @@ class MachineError(BaseModel):
     error = peewee.ForeignKeyField(Error)
 
 class ProcessError(BaseModel):
-    machine = peewee.ForeignKeyField(Process, backref='errors')
+    process = peewee.ForeignKeyField(Process, backref='errors')
     error = peewee.ForeignKeyField(Error)
 
 db.create_tables([Machine, Process, User, Error, MachineError, ProcessError])
