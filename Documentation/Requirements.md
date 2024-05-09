@@ -33,11 +33,6 @@
     <img  width="800" src="Atividade.jpeg"/>
 </div>
 <br>
-<b>Screen Sequence</b>
-
-<div align="center">
-    <img  width="800" src="sequenciadetelas.jpeg"/>
-</div>
 
 <b>Sequence Diagram - Main</b>
 
