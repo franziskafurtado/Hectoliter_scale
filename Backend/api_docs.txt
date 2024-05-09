@@ -1,3 +1,5 @@
+Todas as operações da máquina serão feitas atraves de POST em JSON na url https://joaopedrogalera.pyhtonanywhere.com/machineSync
+
 Atualização de status idle
 Enviar
 {
