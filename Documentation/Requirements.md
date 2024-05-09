@@ -51,7 +51,13 @@
 <br> 
 <b>App Screens</b>
 <div align="center">
-https://github.com/franziskafurtado/Hectoliter_scale/assets/23341934/547683c8-a88b-47fe-85bb-2c2e4dc3aa42
+
+    
+
+https://github.com/franziskafurtado/Hectoliter_scale/assets/23341934/ccec0c3b-bf57-425f-8323-3eff5aa60e68
+
+
+    
 </div>
 <h3>Back</h3>
 
