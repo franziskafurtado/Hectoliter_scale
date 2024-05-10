@@ -413,3 +413,7 @@ def startProcess(id):
     machine.save()
 
     return flask.jsonify({"message":"ok"})
+
+@app.route('/')
+def index():
+    return flask.redirect('https://parallel-scaffold-ec7.notion.site/Hectoliter-scale-e9c8e874d7f0444c88b8114017271cce', code=302)
