@@ -1,7 +1,0 @@
-{
-  "name": "hectoliter_scale",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "angular-standalone"
-}
