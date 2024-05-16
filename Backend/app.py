@@ -106,7 +106,7 @@ def machineSync():
            processData['hectoliter'] == ''):
             return flask.jsonify({'error':'Process parameters are missing'}), 400
 
-        if int(processData['status'] == 2) and not 'errors' in processData or not isinstance(processData['errors'], list) or len(processData['errors']) == 0:
+        if int(processData['status'] == 2) and (not 'errors' in processData or not isinstance(processData['errors'], list) or len(processData['errors']) == 0):
             return flask.jsonify({'error':'No errors codes were sent'}), 400
 
         for error in processData['errors']:
