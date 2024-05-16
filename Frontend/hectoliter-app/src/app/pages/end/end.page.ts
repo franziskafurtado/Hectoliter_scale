@@ -8,7 +8,11 @@ import { Router } from '@angular/router';
 })
 export class EndPage implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {
+    setTimeout(() => {
+      this.router.navigate(['/end-error']); // Mudar para a página desejada após o timeout
+    }, 6000);
+  }
 
   ngOnInit() {
   }
@@ -18,7 +22,7 @@ export class EndPage implements OnInit {
   }
 
   GoToHistory() {
-    this.router.navigate(['/main']);
+    this.router.navigate(['/history']);
   }
 
 }

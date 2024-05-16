@@ -4,32 +4,36 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'mainionic serve',
     pathMatch: 'full'
   },
   {
     path: 'wait',
-    loadChildren: () => import('./pages/wait/wait.module').then( m => m.WaitPageModule)
+    loadChildren: () => import('./pages/wait/wait.module').then(m => m.WaitPageModule)
   },
   {
     path: 'login',
-    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
+    loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule)
   },
   {
     path: 'main',
-    loadChildren: () => import('./pages/main/main.module').then( m => m.MainPageModule)
+    loadChildren: () => import('./pages/main/main.module').then(m => m.MainPageModule)
   },
   {
     path: 'end',
-    loadChildren: () => import('./pages/end/end.module').then( m => m.EndPageModule)
+    loadChildren: () => import('./pages/end/end.module').then(m => m.EndPageModule)
   },
   {
     path: 'history',
-    loadChildren: () => import('./pages/history/history.module').then( m => m.HistoryPageModule)
+    loadChildren: () => import('./pages/history/history.module').then(m => m.HistoryPageModule)
+  },
+  {
+    path: 'end-error',
+    loadChildren: () => import('./pages/end-error/end-error.module').then( m => m.EndErrorPageModule)
   },
 ];
 

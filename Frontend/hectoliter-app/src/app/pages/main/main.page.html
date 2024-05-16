@@ -1,6 +1,23 @@
 <ion-content>
-  <div class="center-button">
-    <ion-button color="warning" shape="round" size="full" (click)="GoToWait()">Start measurement</ion-button>
-    <ion-button color="warning" shape="round" size="full" (click)="GoToHistory()">See history</ion-button>
+
+  <div class="background">
+    <div class="flex-center">
+
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title color="warning">Hectoliter Scaler</ion-card-title>
+        </ion-card-header>
+        <div class="center-button">
+          <ion-button class="custom-button" color="warning" shape="round" size="full" (click)="GoToWait()">Start
+            measurement</ion-button>
+          <ion-button style="width: 100%;" class="custom-button" color="warning" shape="round" size="full"
+            (click)="GoToHistory()">See
+            history</ion-button>
+        </div>
+        <ion-card-content>
+
+        </ion-card-content>
+      </ion-card>
+    </div>
   </div>
 </ion-content>

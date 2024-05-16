@@ -3,6 +3,14 @@ ion-button {
 }
 
 .background {
-    background-color: rgb(243, 234, 174);
+    background-color: #e4dad7;
+    height: 100%;
+}
+
+.center-button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     height: 100%;
 }
