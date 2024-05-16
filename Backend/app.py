@@ -106,19 +106,20 @@ def machineSync():
            processData['hectoliter'] == ''):
             return flask.jsonify({'error':'Process parameters are missing'}), 400
 
-        if int(processData['status'] == 2) and (not 'errors' in processData or not isinstance(processData['errors'], list) or len(processData['errors']) == 0):
-            return flask.jsonify({'error':'No errors codes were sent'}), 400
+        if processStatus == 2:
+            if not 'errors' in processData or not isinstance(processData['errors'], list) or len(processData['errors']) == 0:
+                return flask.jsonify({'error':'No errors codes were sent'}), 400
 
-        for error in processData['errors']:
-            try:
-              error = int(error)
-            except:
-              return flask.jsonify({'error':'Error code '+ error+ ' invalid'}), 400
-
-            try:
-                err = database.Error.get(id=error)
-            except database.peewee.DoesNotExist:
-                return flask.jsonify({'error':'Error code '+str(error)+' invalid'}), 400
+            for error in processData['errors']:
+                try:
+                  error = int(error)
+                except:
+                  return flask.jsonify({'error':'Error code '+ error+ ' invalid'}), 400
+    
+                try:
+                    err = database.Error.get(id=error)
+                except database.peewee.DoesNotExist:
+                    return flask.jsonify({'error':'Error code '+str(error)+' invalid'}), 400
 
         try:
             weight = float(processData['weight'])
@@ -130,11 +131,12 @@ def machineSync():
         except:
             return flask.jsonify({'error':'hectoliter invalid'}), 400
 
-        for error in processData['errors']:
-            processerror = database.ProcessError()
-            processerror.process = process
-            processerror.error = database.Error.get(id=int(error))
-            processerror.save()
+        if processStatus == 2:
+            for error in processData['errors']:
+                processerror = database.ProcessError()
+                processerror.process = process
+                processerror.error = database.Error.get(id=int(error))
+                processerror.save()
 
         process.status = processStatus
         process.timestamp = datetime.datetime.now()
