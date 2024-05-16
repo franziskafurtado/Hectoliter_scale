@@ -143,6 +143,7 @@ def machineSync():
         process.weight = weight
         process.hectoliter = hectoliter
         machine.status = 3
+        machine.newProcess = False
         machine.lastUpdate = datetime.datetime.now()
         machine.runningProcess = None
         process.save()
