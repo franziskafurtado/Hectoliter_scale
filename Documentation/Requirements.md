@@ -119,7 +119,7 @@ https://github.com/franziskafurtado/Hectoliter_scale/assets/23341934/ccec0c3b-bf
 
 
 <h3>App Error Codes</h3><br> 
-<b>00.</b> Time out<br> 
+
 <b>10.</b> Servo Motor 1 is stuck<br> 
 <b>20.</b> Servo Motor 2 is stuck<br> 
 <b>30.</b> Stepper motor is stuck<br> 
@@ -127,6 +127,7 @@ https://github.com/franziskafurtado/Hectoliter_scale/assets/23341934/ccec0c3b-bf
 <b>50.</b> The sample is not enough<br>
 <b>60.</b> Collecting container was opened<br>  
 <b>70.</b> Connection error<br> 
+<b>80.</b> Time out<br> 
 
 
 
