@@ -36,13 +36,105 @@
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
 
+ion-header {
+    background-color: #FFBD59;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+
+    h1 {
+        font-size: 22px;
+        margin: 0;
+        font-family: Montserrat, Arial, Helvetica, sans-serif;
+        font-weight: 100;
+    }
+}
+
+ion-content {
+    background-color: #E7DFDD;
+}
+
+.background {
+    background-color: #E7DFDD;
+    height: 100%;
+}
+
 .flex-center {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
+    flex-wrap: wrap;
+}
+
+.container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 ion-content {
     overflow: hidden;
+}
+
+.text-line {
+    display: flex;
+    flex-direction: row;
+}
+
+.title {
+    font-weight: 800;
+}
+
+.text-line-error {
+    font-weight: 800;
+    display: flex;
+    flex-direction: row;
+    color: red;
+}
+
+h2 {
+    margin: 10px 5px 10px 5px;
+}
+
+.title {
+    font-weight: bold;
+    color: rgba(46, 46, 46, 0.61);
+}
+
+.text-line-sucess {
+    font-weight: 800;
+    display: flex;
+    flex-direction: row;
+    color: rgb(44, 180, 3);
+}
+
+.center-button {
+    width: 80%;
+}
+
+.buttons-wrapper {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex: 1;
+}
+
+ion-card {
+    width: 80%;
+}
+
+ion-card-title {
+    color: #FFBD59;
+    text-align: center;
+}
+
+ion-button {
+    --background: #FFBD59;
+    --background-hover: #FFBD59;
+    --background-activated: #FFBD59;
+    --background-focused: #FFBD59;
 }

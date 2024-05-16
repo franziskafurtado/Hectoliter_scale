@@ -1,3 +1,6 @@
+<ion-header>
+  <h1>Process finished</h1>
+</ion-header>
 <ion-content class="content">
   <div class="background">
     <div class="flex-center">
@@ -7,56 +10,53 @@
             <ion-item>
               <ion-text class="text-line">
                 <h2 class="title">Timestamp:</h2>
-                <h2>05/16/2024 2:33pm</h2>
+                <h2> 05/16/2024 2:33pm</h2>
               </ion-text>
             </ion-item>
 
             <ion-item>
               <ion-text class="text-line">
                 <h2 class="title">Operator:</h2>
-                <h2>João Pedro</h2>
+                <h2> João Pedro</h2>
               </ion-text>
             </ion-item>
 
             <ion-item>
               <ion-text class="text-line">
                 <h2 class="title">Measured Weight:</h2>
-                <h2>200g</h2>
+                <h2> 200g</h2>
               </ion-text>
             </ion-item>
 
             <ion-item>
               <ion-text class="text-line">
                 <h2 class="title">Calculated Hectoliter:</h2>
-                <h2>100hL</h2>
+                <h2> 100hL</h2>
               </ion-text>
             </ion-item>
 
             <ion-item>
               <ion-text>
-                <h2 class="text-line-error">completed with errors</h2>
+                <h2 class="text-line-error"> completed with errors</h2>
               </ion-text>
             </ion-item>
           </ion-list>
 
         </ion-card-content>
       </ion-card>
-    </div>
-    <div class="flex-center">
       <ion-card>
         <ion-card-content>
           <ion-text class="text-line">
             <h2 class="title">Error:</h2>
-            <h2>The machine was shaken during the process</h2>
+            <h2> The machine was shaken during the process</h2>
           </ion-text>
         </ion-card-content>
       </ion-card>
-    </div>
-
-    <div class="buttons-wrapper">
-      <div class="center-button">
-        <ion-button color="warning" shape="round" size="full" (click)="GoToMain()">Main</ion-button>
-        <ion-button color="warning" shape="round" size="full" (click)="GoToHistory()">History</ion-button>
+      <div class="buttons-wrapper">
+        <div class="center-button">
+          <ion-button shape="round" size="full" (click)="GoToMain()">Main</ion-button>
+          <ion-button shape="round" size="full" (click)="GoToHistory()">History</ion-button>
+        </div>
       </div>
     </div>
   </div>

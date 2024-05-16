@@ -3,9 +3,10 @@
     color: "#e4dad7"
 }
 
-.background {
-    background-color: #e4dad7;
-    height: 100%;
+.img-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 .spacer {

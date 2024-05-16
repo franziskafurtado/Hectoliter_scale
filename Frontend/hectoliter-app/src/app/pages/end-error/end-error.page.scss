@@ -1,34 +1,4 @@
-.text-line {
-    display: flex;
-    flex-direction: row;
-}
-
-.text-line-error {
-    font-weight: 800;
-    display: flex;
-    flex-direction: row;
-    color: red;
-}
-
 .title {
-    font-weight: 800;
+    font-weight: bold;
     color: rgba(46, 46, 46, 0.61);
-}
-
-h2 {
-    margin: 10px 5px 10px 5px;
-}
-
-.center-button {
-    width: 70%;
-}
-
-.buttons-wrapper {
-    display: flex;
-    justify-content: center;
-}
-
-.background {
-    background-color: #e4dad7;
-    height: 100%;
 }
