@@ -12,14 +12,12 @@ export class HistoryPage implements OnInit {
 
   ngOnInit() {
   }
-  // cards = [
-  //   { title: 'timestamp', content: '15/06/1997 - 15:00hrs' },
-  //   { title: 'timestamp', content: '15/06/1997 - 15:00hrs' },
-  //   { title: 'timestamp', content: '15/06/1997 - 15:00hrs' },
-  //   { title: 'timestamp', content: '15/06/1997 - 15:00hrs' }
-  // ];
 
   GoToMain() {
     this.router.navigate(['/main']);
+  }
+
+  GoToEnd() {
+    this.router.navigate(['/end']);
   }
 }
