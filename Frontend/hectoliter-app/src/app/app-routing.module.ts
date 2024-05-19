@@ -8,7 +8,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'mainionic serve',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
   {
@@ -33,7 +33,7 @@ const routes: Routes = [
   },
   {
     path: 'end-error',
-    loadChildren: () => import('./pages/end-error/end-error.module').then( m => m.EndErrorPageModule)
+    loadChildren: () => import('./pages/end-error/end-error.module').then(m => m.EndErrorPageModule)
   },
 ];
 
