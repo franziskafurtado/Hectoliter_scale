@@ -413,10 +413,10 @@ def startProcess(id):
         return flask.jsonify({'error':'Machine is offline'}), 409
 
     if not (machine.status == 0 or machine.status == 3):
-        return flask.jsonify({'error':'Machine is not available to start a new process'})
+        return flask.jsonify({'error':'Machine is not available to start a new process'}), 400
 
     if machine.newProcess:
-        return flask.jsonify({'error':'There is a pending process waiting to be executed'})
+        return flask.jsonify({'error':'There is a pending process waiting to be executed'}), 400
 
     #Create new process
     process = database.Process()
