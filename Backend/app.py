@@ -155,7 +155,7 @@ def machineSync():
     ret = {
       "uuid": machine.uuid,
       "status": machine.status,
-      "lastUpdate": machine.lastUpdate.isoformat()
+      "lastUpdate": machine.lastUpdate.replace(tzinfo=datetime.timezone.utc).isoformat()
     }
 
     retErr = []
@@ -342,7 +342,7 @@ def getProcesses():
         ret.append({
             "id": process.id,
             "status": process.status,
-            "timestamp": process.timestamp.isoformat(),
+            "timestamp": process.timestamp.replace(tzinfo=datetime.timezone.utc).isoformat(),
             "user": process.user.name
         })
 
@@ -369,7 +369,7 @@ def getProcess(id):
     }
 
     if(process.timestamp):
-        ret['timestamp'] = process.timestamp.isoformat()
+        ret['timestamp'] = process.timestamp.replace(tzinfo=datetime.timezone.utc).isoformat()
     else:
         ret['timestamp'] = None
 
