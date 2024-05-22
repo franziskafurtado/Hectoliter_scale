@@ -74,6 +74,7 @@ export class BackendService {
     }
     catch(err: any){
       if(err.status && err.status == 401){
+        this.token = "";
         this.router.navigate(['/login']);
       }
       throw err.error??err;
@@ -103,6 +104,7 @@ export class BackendService {
     }
     catch(err: any){
       if(err.status && err.status == 401){
+        this.token = "";
         this.router.navigate(['/login']);
       }
       throw err.error??err;
