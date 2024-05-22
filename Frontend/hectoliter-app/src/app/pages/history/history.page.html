@@ -7,82 +7,67 @@
 
       <ion-card class="margin_card">
         <ion-card-content class="flex-center">
-          <h2>Start date:</h2>
-          <ion-datetime-button datetime="data_ini"></ion-datetime-button>
+          <h1>Filters</h1>
+          <div class="date">
+            <h2>Start date:</h2>
+            <ion-datetime-button datetime="data_ini"></ion-datetime-button>
 
-          <ion-modal [keepContentsMounted]="true">
-            <ng-template>
-              <ion-datetime id="data_ini" presentation="date"></ion-datetime>
-            </ng-template>
-          </ion-modal>
+            <ion-modal [keepContentsMounted]="true">
+              <ng-template>
+                <ion-datetime id="data_ini" presentation="date" [(ngModel)]="dataIni"></ion-datetime>
+              </ng-template>
+            </ion-modal>
+          </div>
+          <div class="date">
+            <h2>End date:</h2>
+            <ion-datetime-button datetime="data_fim"></ion-datetime-button>
 
+            <ion-modal [keepContentsMounted]="true">
+              <ng-template>
+                <ion-datetime id="data_fim" presentation="date" [(ngModel)]="dataFim"></ion-datetime>
+              </ng-template>
+            </ion-modal>
+          </div>
+          <div class="right-button">
+            <ion-button shape="round" (click)="onSearch()">Search</ion-button>
+          </div>
 
         </ion-card-content>
       </ion-card>
-      <ion-card class="margin_card">
-        <ion-card-content class="flex-center">
-          <h2>End date:</h2>
-          <ion-datetime-button datetime="data_fim"></ion-datetime-button>
 
-          <ion-modal [keepContentsMounted]="true">
-            <ng-template>
-              <ion-datetime id="data_fim" presentation="date"></ion-datetime>
-            </ng-template>
-          </ion-modal>
+      <div class="container" *ngIf="loading">
+        <div class="img-container">
+          <img class="config-imagem" src="/assets/gato_wait.gif">
+        </div>
+        <ion-text color="dark">
+          <h3>Searching...</h3>
+        </ion-text>
+      </div>
 
-
-        </ion-card-content>
-      </ion-card>
-
-
-
-      <ion-card class="margin_card">
+      <ion-card class="margin_card" *ngFor="let item of historyItens">
         <ion-card-content>
           <ion-list>
             <ion-item>
               <ion-text class="text-line">
                 <h2 class="title">Timestamp:</h2>
-                <h2>05/16/2024 22:00pm</h2>
+                <h2>{{ item.timestamp }}</h2>
               </ion-text>
             </ion-item>
 
             <ion-item>
               <ion-text>
-                <h2 class="text-line-sucess">completed sucessfully</h2>
+                <h2 [ngClass]="{'text-line-sucess': item.status == 1, 'text-line-error': item.status == 2}">{{ item.status == 1 ? 'completed sucessfully' : item.status == 2 ? 'completed with errors' : 'N/A'}}</h2>
               </ion-text>
             </ion-item>
           </ion-list>
           <div class="buttons-wrapper">
             <div class="center-button">
-              <ion-button shape="round" size="full" (click)="GoToEnd()">See more</ion-button>
+              <ion-button shape="round" size="full" (click)="GoToProcess(item.id)">See more</ion-button>
             </div>
           </div>
         </ion-card-content>
       </ion-card>
 
-      <ion-card class="margin_card">
-        <ion-card-content>
-          <ion-list>
-            <ion-item>
-              <ion-text class="text-line">
-                <h2 class="title">Timestamp:</h2>
-                <h2>05/16/2024 2:33pm</h2>
-              </ion-text>
-            </ion-item>
-
-            <ion-item>
-              <ion-text>
-                <h2 class="text-line-error"> completed with errors</h2>
-              </ion-text>
-            </ion-item>
-          </ion-list>
-          <div class="buttons-wrapper">
-            <div class="center-button">
-              <ion-button shape="round" size="full" (click)="GoToEnd()">See more</ion-button>
-            </div>
-          </div>
-        </ion-card-content>
-      </ion-card>
       <div class="buttons-wrapper">
         <div class="center-button">
           <ion-button shape="round" size="full" (click)="GoToMain()">Main</ion-button>
