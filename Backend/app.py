@@ -7,9 +7,12 @@ import hashlib
 import base64
 import json
 import bcrypt
+from flask_cors import CORS
 
 app = flask.Flask(__name__)
 secret_key = 'MIIBVgIBADANBgkqhkiG9w0BAQEFAASCAUAwggE8AgEAAkEAtMg2igXuDcgpOTkeRvEppjaNy72FzNNP8wV9dS/Pux3QqzdheqP+qSJCtzS2SVV9P2VdYGUuOAuaLj1vnGcifwIDAQABAkEAn0vcYvqerR421OlzuGdAn+lqQKEbiUSaKjYoOl6K2QENgY9t9C12CREC0Wp+ypZhJNp7DJdZUSJVJ+cd04GjYQIhANcniN621s8Qz7LjXiWHZ12kcyP2jCWYHnx+EyisNn/tAiEA1xowRv3FTZGoz9R9CNpgsUdgPEE2cERygVncemvEppsCIQCiMaaHprQm4xiAVdD6X6n3uOon2UvrZ1LMLMrKpZBsPQIgeIzTy6WDgxKEEl3a6TBCCnifBYXitY6WwcmT2AQ3xMsCIQC7BePcXT47u9fUG1Xa7MYYpKW1wY5iOQQ8FevqRNYNIA=='
+CORS(app)
+
 
 @app.route('/machineSync', methods=['GET','POST'])
 def machineSync():
@@ -266,7 +269,7 @@ def getMachines():
         ret.append({
             "id": machine.id,
             "status": machine.status,
-            "lastUpdate": machine.lastUpdate.isoformat()
+            "lastUpdate": machine.lastUpdate.replace(tzinfo=datetime.timezone.utc).isoformat()
         })
 
     return flask.jsonify(ret)
@@ -289,7 +292,7 @@ def getMachine(id):
     ret = {
         "id": machine.id,
         "status": machine.status,
-        "lastUpdate": machine.lastUpdate.isoformat()
+        "lastUpdate": machine.lastUpdate.replace(tzinfo=datetime.timezone.utc).isoformat()
     }
 
     if machine.status == 2:
@@ -362,10 +365,18 @@ def getProcess(id):
 
     ret = {
         "id": process.id,
-        "status": process.status,
-        "timestamp": process.timestamp.isoformat(),
-        "user": process.user.name
+        "status": process.status
     }
+
+    if(process.timestamp):
+        ret['timestamp'] = process.timestamp.isoformat()
+    else:
+        ret['timestamp'] = None
+
+    if(process.user):
+        ret['user'] = process.user.name
+    else:
+        ret['user'] = None
 
     errList = []
     if process.status == 2:
@@ -418,7 +429,12 @@ def startProcess(id):
     machine.newProcess = True 
     machine.save()
 
-    return flask.jsonify({"message":"ok"})
+    return flask.jsonify(
+        {
+            "message":"ok",
+            "process": process.id,
+            "machine": machine.id
+        })
 
 @app.route('/')
 def index():

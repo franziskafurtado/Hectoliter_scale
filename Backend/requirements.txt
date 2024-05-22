@@ -1,3 +1,4 @@
 peewee
 flask
 bcrypt
+flask_cors
