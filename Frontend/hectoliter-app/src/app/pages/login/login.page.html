@@ -9,13 +9,13 @@
 
         <ion-card-content>
           <ion-item>
-            <ion-input label="User" labelPlacement="floating" placeholder="Enter user name"></ion-input>
+            <ion-input label="User" labelPlacement="floating" placeholder="Enter user name" [(ngModel)]="user"></ion-input>
           </ion-item>
           <ion-item>
             <ion-input label="Password" labelPlacement="floating" type="password"
-              placeholder="Enter password"></ion-input>
+              placeholder="Enter password" [(ngModel)]="pass"></ion-input>
           </ion-item>
-          <ion-button shape="round" size="full" (click)="GoToMain()"> Login</ion-button>
+          <ion-button shape="round" size="full" (click)="doLogin()"> Login</ion-button>
         </ion-card-content>
       </ion-card>
     </div>

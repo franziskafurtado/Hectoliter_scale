@@ -1,5 +1,5 @@
 <ion-header>
-  <h1>Process finished</h1>
+  <h1>Process</h1>
 </ion-header>
 <ion-content class="content">
   <div class="background">
@@ -10,38 +10,46 @@
             <ion-item>
               <ion-text class="text-line">
                 <h2 class="title">Timestamp:</h2>
-                <h2>05/16/2024 2:33pm</h2>
+                <h2>{{ processData.timestamp }}</h2>
               </ion-text>
             </ion-item>
 
             <ion-item>
               <ion-text class="text-line">
                 <h2 class="title">Operator:</h2>
-                <h2>João Pedro</h2>
+                <h2>{{ processData.user }}</h2>
               </ion-text>
             </ion-item>
 
             <ion-item>
               <ion-text class="text-line">
                 <h2 class="title">Measured Weight:</h2>
-                <h2>200g</h2>
+                <h2>{{ processData.weight }}</h2>
               </ion-text>
             </ion-item>
 
             <ion-item>
               <ion-text class="text-line">
                 <h2 class="title">Calculated Hectoliter:</h2>
-                <h2>100hL</h2>
+                <h2>{{ processData.hectoliter }}</h2>
               </ion-text>
             </ion-item>
 
             <ion-item>
               <ion-text>
-                <h2 class="text-line-sucess">completed sucessfully</h2>
+                <h2 [ngClass]="{'text-line-sucess': processData.status == 1, 'text-line-error': processData.status == 2}">{{ processData.status == 1 ? 'completed sucessfully' : processData.status == 2 ? 'completed with errors' : 'Loading...'}}</h2>
               </ion-text>
             </ion-item>
           </ion-list>
 
+        </ion-card-content>
+      </ion-card>
+      <ion-card *ngIf="processData.errors.length > 0">
+        <ion-card-content>
+          <ion-text class="text-line" *ngFor="let item of processData.errors">
+            <h2 class="title">Error:</h2>
+            <h2>{{ item }}</h2>
+          </ion-text>
         </ion-card-content>
       </ion-card>
       <div class="buttons-wrapper">

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { BackendService } from 'src/app/backend.service';
 
 @Component({
   selector: 'app-history',
@@ -8,7 +9,20 @@ import { Router } from '@angular/router';
 })
 export class HistoryPage implements OnInit {
 
-  constructor(private router: Router) { }
+  onPage: boolean = false;
+
+  constructor(private router: Router, private backend: BackendService) { }
+
+  ionViewDidEnter(){
+    this.onPage = true;
+    if(!this.backend.checkAuth()){
+      return;
+    }
+  }
+
+  ionViewWillLeave(){
+    this.onPage = false;
+  }
 
   ngOnInit() {
   }
@@ -18,6 +32,6 @@ export class HistoryPage implements OnInit {
   }
 
   GoToEnd() {
-    this.router.navigate(['/end']);
+    this.router.navigate(['/end', {process: 5}]);
   }
 }

@@ -11,8 +11,11 @@
           <ion-card-title>Hectoliter Scaler</ion-card-title>
         </ion-card-header>
         <div>
-          <ion-button class="custom-button" shape="round" size="full" (click)="GoToWait()">Start
+          <ion-button class="custom-button" shape="round" size="full" (click)="StartProcess()" [disabled]="!machineAvailable">Start
             measurement</ion-button>
+            <div class="ion-text-center not-available" *ngIf="!machineAvailable && started">
+              Machine not available
+            </div>
           <ion-button style="width: 100%;" class="custom-button" shape="round" size="full" (click)="GoToHistory()">See
             history</ion-button>
         </div>
