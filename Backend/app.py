@@ -378,6 +378,16 @@ def getProcess(id):
     else:
         ret['user'] = None
 
+    if(process.weight):
+        ret['weight'] = process.weight
+    else:
+        ret['weight'] = 0
+
+    if(process.hectoliter):
+        ret['hectoliter'] = process.hectoliter
+    else:
+        ret['hectoliter'] = 0
+
     errList = []
     if process.status == 2:
         for error in process.errors:
