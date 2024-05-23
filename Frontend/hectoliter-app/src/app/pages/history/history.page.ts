@@ -19,8 +19,8 @@ export class HistoryPage implements OnInit {
   constructor(private router: Router, private backend: BackendService) { }
 
   ionViewWillEnter(){
-    this.dataIni = new Date().toISOString();
-    this.dataFim = new Date().toISOString();
+    //this.dataIni = new Date().toISOString();
+    //this.dataFim = new Date().toISOString();
     this.historyItens = [];
   }
 
@@ -29,6 +29,8 @@ export class HistoryPage implements OnInit {
     if(!this.backend.checkAuth()){
       return;
     }
+
+    this.onSearch();
   }
 
   ionViewWillLeave(){
@@ -47,8 +49,8 @@ export class HistoryPage implements OnInit {
   }
 
   async onSearch(){
-    let _dataIni = this.formatData(this.dataIni);
-    let _dataFim = this.formatData(this.dataFim);
+    let _dataIni = this.formatData(this.dataIni??new Date().toISOString());
+    let _dataFim = this.formatData(this.dataFim??new Date().toISOString());
 
     let _url = '/processes';
 
