@@ -131,6 +131,7 @@ h2 {
 
 ion-card {
     width: 80%;
+    --background: #fff;
 }
 
 ion-card-title {
@@ -143,9 +144,28 @@ ion-button {
     --background-hover: #FFBD59;
     --background-activated: #FFBD59;
     --background-focused: #FFBD59;
+    --color: #fff;
+}
+
+ion-item {
+    --color: #000;
+    --background: #fff;
+}
+
+ion-list{
+    background: #fff !important;
+}
+
+ion-text[color=dark] *{
+    color: #000;
 }
 
 .custom-button {
     font-size: 20px;
     padding: 10px 20px;
+}
+
+ion-datetime-button{
+    --ion-color-step-300: #edeef0;
+    --ion-text-color: #000;
 }

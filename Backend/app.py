@@ -241,12 +241,12 @@ def login():
     try:
         user = database.User.get(username=flask.request.form['username'])
     except database.peewee.DoesNotExist:
-        return flask.jsonify({'error':'Username or password inválid'}), 401
+        return flask.jsonify({'error':'Username or password invalid'}), 401
 
     passwd = user.password.encode('utf-8')
 
     if not bcrypt.hashpw(flask.request.form['password'].encode('utf-8'),passwd) == passwd:
-        return flask.jsonify({'error':'Username or password inválid'}), 401
+        return flask.jsonify({'error':'Username or password invalid'}), 401
 
     return flask.jsonify({
         "token": generateJWT(user)
@@ -449,3 +449,27 @@ def startProcess(id):
 @app.route('/')
 def index():
     return flask.redirect('https://parallel-scaffold-ec7.notion.site/Hectoliter-scale-e9c8e874d7f0444c88b8114017271cce', code=302)
+
+def cancelTimeoutProcess():
+    machines = database.Machine.select().where(database.Machine.runningProcess.is_null(False) & (database.Machine.lastUpdate < (datetime.datetime.now() - datetime.timedelta(minutes=10))))
+
+    for m in machines:
+        try:
+            process = database.Process.get(id=m.runningProcess)
+            process.status = 2
+            process.timestamp = datetime.datetime.now()
+            process.hectoliter = 0
+            process.weight = 0
+            
+            processerror = database.ProcessError()
+            processerror.process = process
+            processerror.error = database.Error.get(id=80)
+
+            processerror.save()
+            process.save()
+
+        except database.peewee.DoesNotExist:
+            pass
+        m.newProcess = False    
+        m.runningProcess = None
+        m.save()
