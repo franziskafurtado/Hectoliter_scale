@@ -6,7 +6,7 @@
 int status = 0;
 int iniciar = 0;
 int erros[8] = {10, 20, 30, 40, 50, 60, 70, 80};
-char *dados_finais[4] = {"timestamp", "operator", "weight", "hectoliter"};
+char dados_finais[4][20] = {"timestamp", "operator", "weight", "hectoliter"};
 
 QueueHandle_t fila_status;
 QueueHandle_t fila_iniciar;
@@ -47,6 +47,7 @@ void task_comunicacao(void *pvParameters)
 {
     int status_local;
     int erros_recebidos[8];
+    char dados_recebidos[4][20];
 
     while (1)
     {
@@ -58,6 +59,9 @@ void task_comunicacao(void *pvParameters)
 
         // Recebe erros
         xQueueReceive(fila_erros, &erros_recebidos, portMAX_DELAY);
+
+        // Recebe dados finais
+        xQueueReceive(fila_dados_finais, &dados_recebidos, portMAX_DELAY);
     }
 }
 
@@ -67,7 +71,7 @@ void app_main()
     fila_status = xQueueCreate(1, sizeof(int));
     fila_iniciar = xQueueCreate(1, sizeof(int));
     fila_erros = xQueueCreate(1, sizeof(int) * 8);
-    fila_dados_finais = xQueueCreate(1, sizeof(char *) * 4);
+    fila_dados_finais = xQueueCreate(1, sizeof(dados_finais));
 
     // Cria threads
     xTaskCreate(task_comunicacao, "Comunicacao", 4096, NULL, 5, NULL);
