@@ -46,6 +46,7 @@ void fim_processo()
 void task_comunicacao(void *pvParameters)
 {
     int status_local;
+    int erros_recebidos[8];
 
     while (1)
     {
