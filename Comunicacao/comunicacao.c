@@ -6,7 +6,7 @@
 int status = 0;
 int iniciar = 0;
 int erros[8] = {10, 20, 30, 40, 50, 60, 70, 80};
-char dados_finais[4][20] = {"timestamp", "operator", "weight", "hectoliter"};
+char dados_finais[4][20] = {""};
 
 QueueHandle_t fila_status;
 QueueHandle_t fila_iniciar;
