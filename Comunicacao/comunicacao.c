@@ -3,41 +3,22 @@
 #include "freertos/task.h"
 #include "freertos/queue.h"
 
-#define NUM_ERROS 8
-
-typedef struct
-{
-    int erros[NUM_ERROS];
-} Erros;
-
 int status = 0;
 int iniciar = 0;
-Erros lista_erros = {{10, 20, 30, 40, 50, 60, 70, 80}};
-// dados_finais
+int erros[8] = {10, 20, 30, 40, 50, 60, 70, 80};
+char *dados_finais[4] = {"timestamp", "operator", "weight", "hectoliter"};
 
-// Definição das filas para comunicação entre as threads
 QueueHandle_t fila_status;
 QueueHandle_t fila_iniciar;
 QueueHandle_t fila_erros;
-
-void task_comunicacao(void *pvParameters)
-{
-    int status_local;
-
-    while (1)
-    {
-        // Recebe 'status'
-        xQueueReceive(fila_status, &status_local, portMAX_DELAY);
-
-        // Envia 'iniciar'
-        xQueueSend(fila_iniciar, &iniciar, portMAX_DELAY);
-    }
-}
+QueueHandle_t fila_dados_finais;
 
 void task_processo(void *pvParameters)
 {
     while (1)
     {
+        // Envia status
+        xQueueSend(fila_status, &status, portMAX_DELAY);
 
         if (status == 3)
         {
@@ -49,10 +30,25 @@ void task_processo(void *pvParameters)
 
 void fim_processo()
 {
-    printf("Fim do processo\n");
+    // Envia dados finais
+    xQueueSend(fila_dados_finais, dados_finais, portMAX_DELAY);
 
-    // Envia dados
-    // xQueueSend(fila_dados_finais, &dados_finais, portMAX_DELAY);
+    // Envia status
+    xQueueSend(fila_status, &status, portMAX_DELAY);
+}
+
+void task_comunicacao(void *pvParameters)
+{
+    int status_local;
+
+    while (1)
+    {
+        // Envia iniciar
+        xQueueSend(fila_iniciar, &iniciar, portMAX_DELAY);
+
+        // Recebe status
+        xQueueReceive(fila_status, &status_local, portMAX_DELAY);
+    }
 }
 
 void app_main()
@@ -60,8 +56,8 @@ void app_main()
     // Inicializa filas
     fila_status = xQueueCreate(1, sizeof(int));
     fila_iniciar = xQueueCreate(1, sizeof(int));
-    fila_erros = xQueueCreate(1, sizeof(Erros));
-    // fila_dados_finais = xQueueCreate(1, sizeof(int));
+    fila_erros = xQueueCreate(1, sizeof(int) * 8);
+    fila_dados_finais = xQueueCreate(1, sizeof(char *) * 5);
 
     // Cria threads
     xTaskCreate(task_comunicacao, "Comunicacao", 4096, NULL, 5, NULL);
