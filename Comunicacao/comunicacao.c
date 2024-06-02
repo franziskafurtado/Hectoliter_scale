@@ -67,7 +67,7 @@ void app_main()
     fila_status = xQueueCreate(1, sizeof(int));
     fila_iniciar = xQueueCreate(1, sizeof(int));
     fila_erros = xQueueCreate(1, sizeof(int) * 8);
-    fila_dados_finais = xQueueCreate(1, sizeof(char *) * 5);
+    fila_dados_finais = xQueueCreate(1, sizeof(char *) * 4);
 
     // Cria threads
     xTaskCreate(task_comunicacao, "Comunicacao", 4096, NULL, 5, NULL);
