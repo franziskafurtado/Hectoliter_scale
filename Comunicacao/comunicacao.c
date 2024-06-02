@@ -23,6 +23,9 @@ void task_processo(void *pvParameters)
         // Envia status
         xQueueSend(fila_status, &status, portMAX_DELAY);
 
+        // Envia erros
+        xQueueSend(fila_erros, &erros, portMAX_DELAY);
+
         if (status == 3)
         {
             fim_processo();
@@ -51,6 +54,9 @@ void task_comunicacao(void *pvParameters)
 
         // Recebe status
         xQueueReceive(fila_status, &status_local, portMAX_DELAY);
+
+        // Recebe erros
+        xQueueReceive(fila_erros, &erros_recebidos, portMAX_DELAY);
     }
 }
 
