@@ -17,6 +17,9 @@ void task_processo(void *pvParameters)
 {
     while (1)
     {
+        // Recebe iniciar
+        xQueueReceive(fila_iniciar, &iniciar, portMAX_DELAY);
+
         // Envia status
         xQueueSend(fila_status, &status, portMAX_DELAY);
 
