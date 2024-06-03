@@ -107,7 +107,7 @@ void task_comunicacao(void *pvParameters)
 
         http.addHeader("Content-Type", "application/json");
         
-        StaticJsonDocument<200> doc;
+        StaticJsonDocument<2000> doc;
         
         doc["uuid"] = "";
         doc["process"] = "";
