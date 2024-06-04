@@ -21,8 +21,8 @@ int procStatus;
 int erros[8] = {10, 20, 30, 40, 50, 60, 70, 80};
 char dados_finais[4][20] = {};
 
-const char* ssid = "login";
-const char* password = "password";
+const char* ssid = "NEOSILOS-2_4G";
+const char* password = "ueWKFEXx-NEOSILOS";
 const char* apiUrl = "https://joaopedrogalera.pythonanywhere.com:80/machineSync";
 int WiFiStatus = 0;
 
@@ -31,7 +31,7 @@ void setup()
 {
     /* Adicionat setup do código do Gui aqui */
   
-  
+    Serial.begin(9600);
     //Inicializa WiFi
     WiFi.begin(ssid, password);
 
@@ -46,7 +46,23 @@ void task_processo(void *pvParameters)
 {
     while (1)
     {
-      //Chamar o que tá no loop do código do Gui
+      if(Serial.available()){
+        int err[] = {10, 20};
+        switch(Serial.read()){
+          case '0':
+            setIdle();
+            break;
+          case '1':
+            setRunning();
+            break;
+          case '2':
+            setError(err, 2);
+            break;
+          case '3':
+            fim_processo(1, 10.0, 10.0, err, 0);
+            break;
+        }
+      }
       delay(1000);
     }
 }
@@ -70,15 +86,15 @@ void setError(int* list, int size){
   }
 }
 
-void fim_processo(int status, double weight, double hectoliter, int* errors, int nerros)
+void fim_processo(int prcstatus, double weight, double hectoliter, int* errors, int nerros)
 {
     int i = 0;
     enviarFim = 1;
-    status = 0;
+    status = 3;
     
     endHectoliter = hectoliter;
     endWeight = weight;
-    procStatus = status;
+    procStatus = prcstatus;
     
     errorsPVectorSize = nerros;
   
@@ -92,6 +108,8 @@ void task_comunicacao(void *pvParameters)
 {
     while (1)
     {
+        Serial.println("comunica");
+        Serial.println(iniciar);
         //Espera WiFi subir
         while(WiFi.status() != WL_CONNECTED){
           WiFiStatus = 0; 
@@ -109,8 +127,8 @@ void task_comunicacao(void *pvParameters)
         
         StaticJsonDocument<2000> doc;
         
-        doc["uuid"] = "";
-        doc["process"] = "";
+        doc["uuid"] = "4688356cecb043a78b15e4e101b7fdfd";
+        doc["secret"] = "6KMayg5Vw5PTUb52iMz8OUT7JvSFH21i5PSpdvRFPosfjFoAXSIjFIWrdoj2wyFcG7Lf1q6Z4pnYe8cGW3h0lVL4vCAV23Kl0R26M30SyOqmiy62JcxHqfcSVs58kVdTXggXZnpy5dg1cdiutFb2QACphXSbK6Y970bHwYSVaSgKxcjlDrAatAxYX8BkTxYqsBL8VEytIoZehDGiPLtFHEW2Rg0wWA4meefDBUSRUoW2GAPm1qRY2gPV1iMdxMr0";
         
         if(enviarFim == 1){
           doc["status"] = 3;
@@ -145,16 +163,22 @@ void task_comunicacao(void *pvParameters)
         String _Body;
         serializeJson(doc, _Body);
         
+        Serial.println(_Body);
         int httpResponseCode = http.POST(_Body);
       
         if(httpResponseCode > 0){
           if(httpResponseCode >= 200 && httpResponseCode < 300){
-            if(enviarFim){
+            if(status == 3 && enviarFim){
               enviarFim = 0;
+              status = 0;
             }
             else{
               StaticJsonDocument<2000> resp;
               deserializeJson(resp, http.getStream());
+
+              String _Teste;
+              serializeJson(resp, _Teste);
+              Serial.println(_Teste);
             
               if(resp["newProcess"]){
                 iniciar = 1;
@@ -166,6 +190,13 @@ void task_comunicacao(void *pvParameters)
           }
           else{
             WiFiStatus = 2;
+
+            StaticJsonDocument<2000> resp;
+              deserializeJson(resp, http.getStream());
+
+              String _Teste;
+              serializeJson(resp, _Teste);
+              Serial.println(_Teste);
           }
         }
         else{
@@ -174,6 +205,6 @@ void task_comunicacao(void *pvParameters)
 
         http.end();
         
-        delay(20000);
+        delay(10000);
     }
 }
