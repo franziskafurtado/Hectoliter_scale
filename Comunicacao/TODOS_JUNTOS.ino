@@ -11,7 +11,7 @@
 #include "freertos/task.h"
 #include "freertos/queue.h"
 #include <ArduinoJson.h>
-#include <ESP32Ping.h>
+#include <ESPping.h>
 
 // --------------------------------------------- VARIAVEIS COMUNICACAO COM BANCO
 int status = 0;
@@ -27,12 +27,13 @@ double endHectoliter;
 double endWeight;
 int procStatus;
 
+int errorsProcessGui[10];
+int sizeErrorsProcessGui = 0;
+
 const char* ssid = "NEOSILOS-2_4G";
 const char* password = "ueWKFEXx-NEOSILOS";
 const char* apiUrl = "https://joaopedrogalera.pythonanywhere.com:80/machineSync";
 int WiFiStatus = 0;
-
-// #define LED_DEBUG 2
 
 // --------------------------------------------- ACELEROMETRO
 int cont = 0;
@@ -235,8 +236,6 @@ void setup(void) {
   setup_leds();
   // setup_celula_carga();
   setup_comunicacao_banco();
-
-  // pinMode(LED_DEBUG, OUTPUT);
 }
 
 // --------------------------------------------- FUNCOES PARA OS SETS DA COMUNICACAO
@@ -352,23 +351,31 @@ int verificando_nivel_semente(void) {
 
 // ---- SERVO MOTOR
 void ativar_alcapao_collecting_container(void) {
-  // for(int posDegrees = 0; posDegrees <= 180; posDegrees++) {
-  //   servoCollectingContainer.write(posDegrees);
-  //   delay(20);
-  // }
-
-  // for(int posDegrees = 180; posDegrees >= 0; posDegrees--) {
-  //   servoCollectingContainer.write(posDegrees);
-  //   delay(20);
-  // }
-
   delay(5000);
   servoCollectingContainer.write(180);
   delay(5000);
+  // Verificar pelo potenciometro se o servo foi ativao corretamente        <- 1 Potenciometro
+  int servoPosition = map(analogRead(POTENCIOMETER_COLLECTINH_CONTAINER_PIN), 0, 4096, 0, 180);
+  if ((servoPosition > 200) || (servoPosition < -20)) {
+    errorsProcessGui[sizeErrorsProcessGui] = 10;
+    sizeErrorsProcessGui += 1;
+  }
   servoCollectingContainer.write(0);
   delay(10000);
+  // Verificar pelo potenciometro se o servo foi ativao corretamente        <- 1 Potenciometro
+  servoPosition = map(analogRead(POTENCIOMETER_COLLECTINH_CONTAINER_PIN), 0, 4096, 0, 180);
+  if ((servoPosition > 200) || (servoPosition < -20)) {
+    errorsProcessGui[sizeErrorsProcessGui] = 10;
+    sizeErrorsProcessGui += 1;
+  }
   servoCollectingContainer.write(180);
   delay(2000);
+  // Verificar pelo potenciometro se o servo foi ativao corretamente        <- 1 Potenciometro
+  servoPosition = map(analogRead(POTENCIOMETER_COLLECTINH_CONTAINER_PIN), 0, 4096, 0, 180);
+  if ((servoPosition > 200) || (servoPosition < -20)) {
+    errorsProcessGui[sizeErrorsProcessGui] = 10;
+    sizeErrorsProcessGui += 1;
+  }
 }
 
 // -----------------------------------------------------------------------------
@@ -395,11 +402,6 @@ void collectingPhase(void) {
 
   // Ativar o servo motor do alcapao 1                                      <- 1 Servo Motor
   ativar_alcapao_collecting_container();
-
-  // Verificar pelo potenciometro se o servo foi ativao corretamente        <- 1 Potenciometro
-  // int servoPosition = map(analogRead(POTENCIOMETER_COLLECTINH_CONTAINER_PIN), 0, 4096, 0, 180);
-  // if ((servoPosition > 190) || (servoPosition < -10))
-  // Mandar mensagem de erro
 }
 
 
@@ -436,6 +438,8 @@ void nivelamento_amostra(int etapa_parametro, int direcao_parametro) {
 
         cont_timeout_nivelamento += 1;
         if (cont_timeout_nivelamento >= 5500) {
+          errorsProcessGui[sizeErrorsProcessGui] = 30;
+          sizeErrorsProcessGui += 1;
           quantidade += 1;
           break;
         }
@@ -465,7 +469,7 @@ void nivelamento_amostra(int etapa_parametro, int direcao_parametro) {
           delayMicroseconds(500);
       
           cont_timeout_nivelamento += 1;
-          if (cont_timeout_nivelamento >= 5500) {
+          if (cont_timeout_nivelamento >= 6000) {
             quantidade += 1;
             break;
           }
@@ -502,22 +506,31 @@ void medicao_amostra(void) {
 
 // ---- SERVO MOTOR
 void ativar_alcapao_measuring_container(void) {
-  // for(int posDegrees = 0; posDegrees <= 180; posDegrees++) {
-  //   servoMeasuringContainer.write(posDegrees);
-  //   delay(20);
-  // }
-
-  // for(int posDegrees = 180; posDegrees >= 0; posDegrees--) {
-  //   servoMeasuringContainer.write(posDegrees);
-  //   delay(20);
-  // }
   delay(5000);
   servoMeasuringContainer.write(180);
   delay(5000);
+  // Verificar pelo potenciometro se o servo foi ativao corretamente        <- 1 Potenciometro
+  int servoPosition = map(analogRead(POTENCIOMETER_MEASURING_CONTAINER_PIN), 0, 4096, 0, 180);
+  if ((servoPosition > 200) || (servoPosition < -20)) {
+    errorsProcessGui[sizeErrorsProcessGui] = 20;
+    sizeErrorsProcessGui += 1;
+  }
   servoMeasuringContainer.write(0);
   delay(10000);
+  // Verificar pelo potenciometro se o servo foi ativao corretamente        <- 1 Potenciometro
+  int servoPosition = map(analogRead(POTENCIOMETER_MEASURING_CONTAINER_PIN), 0, 4096, 0, 180);
+  if ((servoPosition > 200) || (servoPosition < -20)) {
+    errorsProcessGui[sizeErrorsProcessGui] = 20;
+    sizeErrorsProcessGui += 1;
+  }
   servoMeasuringContainer.write(180);
   delay(2000);
+  // Verificar pelo potenciometro se o servo foi ativao corretamente        <- 1 Potenciometro
+  int servoPosition = map(analogRead(POTENCIOMETER_MEASURING_CONTAINER_PIN), 0, 4096, 0, 180);
+  if ((servoPosition > 200) || (servoPosition < -20)) {
+    errorsProcessGui[sizeErrorsProcessGui] = 20;
+    sizeErrorsProcessGui += 1;
+  }
 }
 
 // -----------------------------------------------------------------------------
@@ -541,12 +554,6 @@ void measuringPhase(void) {
 
   // Ativa o servo motor para liberar o alcapao                             <- 1 Servo Motor
   ativar_alcapao_measuring_container();
-
-  // Verificar pelo potenciometro se o servo foi ativao corretamente        <- 1 Potenciometro
-  // int servoPosition = map(analogRead(POTENCIOMETER_MEASURING_CONTAINER_PIN), 0, 4096, 0, 180);
-  // if ((servoPosition > 190) || (servoPosition < -10))
-  // Mandar mensagem de erro
-  
 }
 
 // --------------------------------------------- RETURNING PHASE
@@ -658,7 +665,8 @@ void task_comunicacao(void *pvParameters)
           WiFiStatus = 0; 
           delay(50);
         }
-        while(!Ping.ping("8.8.8.8", 2)){
+        const IPAddress ping_ip(8, 8, 8, 8);
+        while(!Ping.ping(ping_ip, 2)){
           WiFiStatus = 0; 
           delay(50);
         }
