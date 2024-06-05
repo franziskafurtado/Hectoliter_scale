@@ -11,7 +11,7 @@
 #include "freertos/task.h"
 #include "freertos/queue.h"
 #include <ArduinoJson.h>
-#include <ESP32Ping.h>
+#include <ESPping.h>
 
 // --------------------------------------------- VARIAVEIS COMUNICACAO COM BANCO
 int status = 0;
@@ -658,7 +658,8 @@ void task_comunicacao(void *pvParameters)
           WiFiStatus = 0; 
           delay(50);
         }
-        while(!Ping.ping("8.8.8.8", 2)){
+        const IPAddress ping_ip(8, 8, 8, 8);
+        while(!Ping.ping(ping_ip, 2)){
           WiFiStatus = 0; 
           delay(50);
         }
