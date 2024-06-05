@@ -11,6 +11,7 @@
 #include "freertos/task.h"
 #include "freertos/queue.h"
 #include <ArduinoJson.h>
+#include <ESP32Ping.h>
 
 // --------------------------------------------- VARIAVEIS COMUNICACAO COM BANCO
 int status = 0;
@@ -263,6 +264,7 @@ void fim_processo(int prcstatus, double weight, double hectoliter, int* errors, 
     int i = 0;
     enviarFim = 1;
     status = 3;
+    iniciar = 0;
     
     endHectoliter = hectoliter;
     endWeight = weight;
@@ -654,7 +656,11 @@ void task_comunicacao(void *pvParameters)
         //Espera WiFi subir
         while(WiFi.status() != WL_CONNECTED){
           WiFiStatus = 0; 
-          delay(500);
+          delay(50);
+        }
+        while(!Ping.ping("8.8.8.8", 2)){
+          WiFiStatus = 0; 
+          delay(50);
         }
         WiFiStatus = 1;
       
@@ -671,7 +677,9 @@ void task_comunicacao(void *pvParameters)
         doc["uuid"] = "4688356cecb043a78b15e4e101b7fdfd";
         doc["secret"] = "6KMayg5Vw5PTUb52iMz8OUT7JvSFH21i5PSpdvRFPosfjFoAXSIjFIWrdoj2wyFcG7Lf1q6Z4pnYe8cGW3h0lVL4vCAV23Kl0R26M30SyOqmiy62JcxHqfcSVs58kVdTXggXZnpy5dg1cdiutFb2QACphXSbK6Y970bHwYSVaSgKxcjlDrAatAxYX8BkTxYqsBL8VEytIoZehDGiPLtFHEW2Rg0wWA4meefDBUSRUoW2GAPm1qRY2gPV1iMdxMr0";
         
-        if(enviarFim == 1){
+        int _flagFim = enviarFim;
+        
+        if(_flagFim == 1){
           iniciar = 0;
           doc["status"] = 3;
           
@@ -710,7 +718,7 @@ void task_comunicacao(void *pvParameters)
       
         if(httpResponseCode > 0){
           if(httpResponseCode >= 200 && httpResponseCode < 300){
-            if(status == 3 && enviarFim){
+            if(_flagFim){
               enviarFim = 0;
               status = 0;
             }
