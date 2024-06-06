@@ -11,23 +11,22 @@
 #include "freertos/task.h"
 #include "freertos/queue.h"
 #include <ArduinoJson.h>
-#include <ESPping.h>
 
 // --------------------------------------------- VARIAVEIS COMUNICACAO COM BANCO
 int status = 0;
 int iniciar = 0;
-int enviarFim;
+int enviarFim = 0;
 int errorsMVector[20];
-int errorsMVectorSize;
+int errorsMVectorSize = 0;
 
 int errorsPVector[20];
-int errorsPVectorSize;
+int errorsPVectorSize = 0;
 
-double endHectoliter;
-double endWeight;
-int procStatus;
+double endHectoliter = 0.0;
+double endWeight = 0.0;
+int procStatus = 0;
 
-int errorsProcessGui[10];
+int errorsProcessGui[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 int sizeErrorsProcessGui = 0;
 
 const char* ssid = "NEOSILOS-2_4G";
@@ -247,33 +246,49 @@ void setRunning(){
   status = 1;
 }
 
-void setError(int* list, int size){
+int setError(int* list, int size){
+  Serial.print("Erro size");
+  Serial.println(size);
+  if(!size){
+    return 0;
+  }
   int i = 0;
-  status = 2;
   
   errorsMVectorSize = size;
   
   for(i = 0; i < size; i++){
     errorsMVector[i] = list[i];
   }
+
+  status = 2;
 }
 
-void fim_processo(int prcstatus, double weight, double hectoliter, int* errors, int nerros)
+void fim_processo(double weight, double hectoliter)
 {
-    int i = 0;
-    enviarFim = 1;
-    status = 3;
     iniciar = 0;
+    int i = 0, n = 0;
+    
     
     endHectoliter = hectoliter;
     endWeight = weight;
-    procStatus = prcstatus;
-    
-    errorsPVectorSize = nerros;
   
-    for(i = 0; i < nerros; i++){
-      errorsPVector[i] = errors[i];
+    for(i = 0; i < 8; i++){
+      if(errorsProcessGui[i]){
+        errorsPVector[n] = errorsProcessGui[i];
+        n++;
+      }
     }
+
+    procStatus = n ? 2 : 1;
+    errorsPVectorSize = n;
+
+    Serial.print("ProcStatus");
+    Serial.println(procStatus);
+    Serial.print("ProcErrn");
+    Serial.println(errorsPVectorSize);
+
+    enviarFim = 1;
+    status = 3;
     
 }
 
@@ -355,27 +370,24 @@ void ativar_alcapao_collecting_container(void) {
   servoCollectingContainer.write(180);
   delay(5000);
   // Verificar pelo potenciometro se o servo foi ativao corretamente        <- 1 Potenciometro
-  int servoPosition = map(analogRead(POTENCIOMETER_COLLECTINH_CONTAINER_PIN), 0, 4096, 0, 180);
-  if ((servoPosition > 200) || (servoPosition < -20)) {
-    errorsProcessGui[sizeErrorsProcessGui] = 10;
-    sizeErrorsProcessGui += 1;
-  }
+  // int servoPosition = map(analogRead(POTENCIOMETER_COLLECTINH_CONTAINER_PIN), 0, 4096, 0, 180);
+  // if ((servoPosition > 200) || (servoPosition < -20)) {
+  //   errorsProcessGui[0] = 10;
+  // }
   servoCollectingContainer.write(0);
-  delay(10000);
+  delay(5000);
   // Verificar pelo potenciometro se o servo foi ativao corretamente        <- 1 Potenciometro
-  servoPosition = map(analogRead(POTENCIOMETER_COLLECTINH_CONTAINER_PIN), 0, 4096, 0, 180);
-  if ((servoPosition > 200) || (servoPosition < -20)) {
-    errorsProcessGui[sizeErrorsProcessGui] = 10;
-    sizeErrorsProcessGui += 1;
-  }
+  // servoPosition = map(analogRead(POTENCIOMETER_COLLECTINH_CONTAINER_PIN), 0, 4096, 0, 180);
+  // if ((servoPosition > 200) || (servoPosition < -20)) {
+  //   errorsProcessGui[0] = 10;
+  // }
   servoCollectingContainer.write(180);
   delay(2000);
   // Verificar pelo potenciometro se o servo foi ativao corretamente        <- 1 Potenciometro
-  servoPosition = map(analogRead(POTENCIOMETER_COLLECTINH_CONTAINER_PIN), 0, 4096, 0, 180);
-  if ((servoPosition > 200) || (servoPosition < -20)) {
-    errorsProcessGui[sizeErrorsProcessGui] = 10;
-    sizeErrorsProcessGui += 1;
-  }
+  // servoPosition = map(analogRead(POTENCIOMETER_COLLECTINH_CONTAINER_PIN), 0, 4096, 0, 180);
+  // if ((servoPosition > 200) || (servoPosition < -20)) {
+  //   errorsProcessGui[0] = 10;
+  // }
 }
 
 // -----------------------------------------------------------------------------
@@ -392,12 +404,6 @@ void collectingPhase(void) {
   // Verificar o sensor IR se está acusando o nivel certo                   <- Sensor IR
   while (verificando_nivel_semente()) {
     delay(100);
-  //   // Debug
-  //   digitalWrite(LED_WIFI, HIGH);
-  //   delay(500);
-  //   digitalWrite(LED_WIFI, LOW);
-  //   delay(500);
-  //   // ----
   }
 
   // Ativar o servo motor do alcapao 1                                      <- 1 Servo Motor
@@ -438,8 +444,7 @@ void nivelamento_amostra(int etapa_parametro, int direcao_parametro) {
 
         cont_timeout_nivelamento += 1;
         if (cont_timeout_nivelamento >= 5500) {
-          errorsProcessGui[sizeErrorsProcessGui] = 30;
-          sizeErrorsProcessGui += 1;
+          errorsProcessGui[2] = 30;
           quantidade += 1;
           break;
         }
@@ -510,27 +515,24 @@ void ativar_alcapao_measuring_container(void) {
   servoMeasuringContainer.write(180);
   delay(5000);
   // Verificar pelo potenciometro se o servo foi ativao corretamente        <- 1 Potenciometro
-  int servoPosition = map(analogRead(POTENCIOMETER_MEASURING_CONTAINER_PIN), 0, 4096, 0, 180);
-  if ((servoPosition > 200) || (servoPosition < -20)) {
-    errorsProcessGui[sizeErrorsProcessGui] = 20;
-    sizeErrorsProcessGui += 1;
-  }
+  // int servoPosition = map(analogRead(POTENCIOMETER_MEASURING_CONTAINER_PIN), 0, 4096, 0, 180);
+  // if ((servoPosition > 200) || (servoPosition < -20)) {
+  //   errorsProcessGui[1] = 20;
+  // }
   servoMeasuringContainer.write(0);
-  delay(10000);
+  delay(5000);
   // Verificar pelo potenciometro se o servo foi ativao corretamente        <- 1 Potenciometro
-  int servoPosition = map(analogRead(POTENCIOMETER_MEASURING_CONTAINER_PIN), 0, 4096, 0, 180);
-  if ((servoPosition > 200) || (servoPosition < -20)) {
-    errorsProcessGui[sizeErrorsProcessGui] = 20;
-    sizeErrorsProcessGui += 1;
-  }
+  // int servoPosition = map(analogRead(POTENCIOMETER_MEASURING_CONTAINER_PIN), 0, 4096, 0, 180);
+  // if ((servoPosition > 200) || (servoPosition < -20)) {
+  //   errorsProcessGui[1] = 20;
+  // }
   servoMeasuringContainer.write(180);
   delay(2000);
   // Verificar pelo potenciometro se o servo foi ativao corretamente        <- 1 Potenciometro
-  int servoPosition = map(analogRead(POTENCIOMETER_MEASURING_CONTAINER_PIN), 0, 4096, 0, 180);
-  if ((servoPosition > 200) || (servoPosition < -20)) {
-    errorsProcessGui[sizeErrorsProcessGui] = 20;
-    sizeErrorsProcessGui += 1;
-  }
+  // int servoPosition = map(analogRead(POTENCIOMETER_MEASURING_CONTAINER_PIN), 0, 4096, 0, 180);
+  // if ((servoPosition > 200) || (servoPosition < -20)) {
+  //   errorsProcessGui[1] = 20;
+  // }
 }
 
 // -----------------------------------------------------------------------------
@@ -586,7 +588,22 @@ void loop_processo(void) {
   resetServos();
   while(porta_entrada_OU_sem_container_coleta()){
     delay(100);
+    int container_coleta = digitalRead(RETURNING_CONTAINER_FIM_CURSO_PIN);
+    int porta = digitalRead(COLLECTING_CONTAINER_PORTINHA_FIM_CURSO_PIN);
+
+    int err[2];
+    int n = 0;
+    if (container_coleta == LOW){
+      err[n] = 40;
+      n++;
+    }
+    if (porta == LOW){
+      err[n] = 60;
+      n++;
+    }
+    setError(err, n);
   }
+  setRunning();
 
 
   
@@ -618,8 +635,7 @@ void loop_processo(void) {
   delay(500);
 
   // Chama a funcao para mandar os dados pro banco
-  int err[] = {10};
-  fim_processo(1, 10.0, 10.0, err, 0);
+  fim_processo(143.7, 0.712);
 }
 
 // --------------------------------------------- VOID LOOP --------------------------------------------- 
@@ -630,7 +646,10 @@ void task_processo(void *pvParameters)
       while(!iniciar){
         delay(500);
       }
-      setRunning();
+      char i;
+      for(i = 0; i < 8; i++){
+        errorsProcessGui[i] = 0;
+      }
       loop_processo();
       // if(Serial.available()){
       //   int err[] = {10, 20};
@@ -665,11 +684,6 @@ void task_comunicacao(void *pvParameters)
           WiFiStatus = 0; 
           delay(50);
         }
-        const IPAddress ping_ip(8, 8, 8, 8);
-        while(!Ping.ping(ping_ip, 2)){
-          WiFiStatus = 0; 
-          delay(50);
-        }
         WiFiStatus = 1;
       
         WiFiClient client;
@@ -679,6 +693,7 @@ void task_comunicacao(void *pvParameters)
         http.begin(client, apiUrl);
 
         http.addHeader("Content-Type", "application/json");
+        http.setConnectTimeout(3000000);
         
         StaticJsonDocument<2000> doc;
         
@@ -686,7 +701,12 @@ void task_comunicacao(void *pvParameters)
         doc["secret"] = "6KMayg5Vw5PTUb52iMz8OUT7JvSFH21i5PSpdvRFPosfjFoAXSIjFIWrdoj2wyFcG7Lf1q6Z4pnYe8cGW3h0lVL4vCAV23Kl0R26M30SyOqmiy62JcxHqfcSVs58kVdTXggXZnpy5dg1cdiutFb2QACphXSbK6Y970bHwYSVaSgKxcjlDrAatAxYX8BkTxYqsBL8VEytIoZehDGiPLtFHEW2Rg0wWA4meefDBUSRUoW2GAPm1qRY2gPV1iMdxMr0";
         
         int _flagFim = enviarFim;
-        
+
+        Serial.print("Status");
+        Serial.println(status);
+        Serial.print("Fim");
+        Serial.println(_flagFim);
+
         if(_flagFim == 1){
           iniciar = 0;
           doc["status"] = 3;
@@ -724,6 +744,7 @@ void task_comunicacao(void *pvParameters)
         Serial.println(_Body);
         int httpResponseCode = http.POST(_Body);
       
+        Serial.println(httpResponseCode);
         if(httpResponseCode > 0){
           if(httpResponseCode >= 200 && httpResponseCode < 300){
             if(_flagFim){
@@ -759,6 +780,7 @@ void task_comunicacao(void *pvParameters)
         }
         else{
           WiFiStatus = 2;
+          Serial.println(http.errorToString(httpResponseCode).c_str());
         }
 
         http.end();
