@@ -27,7 +27,6 @@ double endWeight = 0.0;
 int procStatus = 0;
 
 int errorsProcessGui[8] = {0, 0, 0, 0, 0, 0, 0, 0};
-int sizeErrorsProcessGui = 0;
 
 const char* ssid = "NEOSILOS-2_4G";
 const char* password = "ueWKFEXx-NEOSILOS";
@@ -218,6 +217,7 @@ void setup_comunicacao_banco(void) {
   // Cria threads
   xTaskCreate(task_comunicacao, "Comunicacao", 4096, NULL, 5, NULL);
   xTaskCreate(task_processo, "Processo", 4096, NULL, 5, NULL);
+  xTaskCreate(task_monitor, "Monitoramento", 4096, NULL, 5, NULL);
 }
 
 // --------------------------------------------- SETUP MAIN --------------------------------------------- 
@@ -349,19 +349,12 @@ int porta_entrada_OU_sem_container_coleta(void) {
 }
 
 // ---- SENSOR IR
-int verificando_nivel_semente(void) {
-  int cont_tempo_sensor_ir = 0;
+void verificando_nivel_semente(void) {
+  delay(1000);
 
   if (digitalRead(SENSOR_IR) == HIGH) {
-    while ((cont_tempo_sensor_ir < 5) && (digitalRead(SENSOR_IR) == HIGH)) {
-      cont_tempo_sensor_ir += 1;
-      delay(1000);
-    }
-    if (cont_tempo_sensor_ir >= 5) {
-      return 0;
-    }
+    errorsProcessGui[4] = 0;
   }
-  return 1;
 }
 
 // ---- SERVO MOTOR
@@ -401,10 +394,12 @@ void collectingPhase(void) {
   digitalWrite(LED_MEASURING_PHASE, LOW);
   digitalWrite(LED_RETURNING_PHASE, LOW);
 
+  errorsProcessGui[4] = 50;
+  delay(100);
+
   // Verificar o sensor IR se está acusando o nivel certo                   <- Sensor IR
-  while (verificando_nivel_semente()) {
-    delay(100);
-  }
+  verificando_nivel_semente();
+  delay(500);
 
   // Ativar o servo motor do alcapao 1                                      <- 1 Servo Motor
   ativar_alcapao_collecting_container();
@@ -430,7 +425,7 @@ void nivelamento_amostra(int etapa_parametro, int direcao_parametro) {
 
   digitalWrite(en, LOW);
 
-  while (quantidade < 3) {
+  while (quantidade < 2) {
     cont_timeout_nivelamento = 0;
 
     if (etapa == 1){
@@ -443,9 +438,10 @@ void nivelamento_amostra(int etapa_parametro, int direcao_parametro) {
         delayMicroseconds(500);
 
         cont_timeout_nivelamento += 1;
-        if (cont_timeout_nivelamento >= 5500) {
+        if (cont_timeout_nivelamento >= 15000) {
           errorsProcessGui[2] = 30;
           quantidade += 1;
+          cont_timeout_nivelamento = 0;
           break;
         }
       }
@@ -455,14 +451,12 @@ void nivelamento_amostra(int etapa_parametro, int direcao_parametro) {
         etapa = 0;
         quantidade += 1;
         cont_timeout_nivelamento = 0;
-        // delay(1000);
     }
     else if (digitalRead(MOTOR_PASSO_LIMIT_ESQUERDA_FIM_CURSO_PIN) == HIGH){
         direcao = 1;
         etapa = 0;
         quantidade += 1;
         cont_timeout_nivelamento = 0;
-        // delay(1000);
     }
     if (etapa == 0){
         digitalWrite(DIR, direcao);
@@ -474,8 +468,9 @@ void nivelamento_amostra(int etapa_parametro, int direcao_parametro) {
           delayMicroseconds(500);
       
           cont_timeout_nivelamento += 1;
-          if (cont_timeout_nivelamento >= 6000) {
+          if (cont_timeout_nivelamento >= 15000) {
             quantidade += 1;
+            cont_timeout_nivelamento = 0;
             break;
           }
         }
@@ -787,4 +782,21 @@ void task_comunicacao(void *pvParameters)
         
         delay(10000);
     }
+}
+
+void task_monitor(void *pvParameters)
+{
+    if(status == 1){
+      int container_coleta = digitalRead(RETURNING_CONTAINER_FIM_CURSO_PIN);
+      int porta = digitalRead(COLLECTING_CONTAINER_PORTINHA_FIM_CURSO_PIN);
+
+      if (container_coleta == LOW){
+        errorsProcessGui[3] = 40;
+      }
+      if (porta == LOW){
+        errorsProcessGui[5] = 60;
+      }
+    }
+
+    delay(500);
 }
