@@ -28,8 +28,8 @@ int procStatus = 0;
 
 int errorsProcessGui[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 
-const char* ssid = "NEOSILOS-2_4G";
-const char* password = "ueWKFEXx-NEOSILOS";
+const char* ssid = "Renies e Camis 2.4G";
+const char* password = "abba2610";
 const char* apiUrl = "https://joaopedrogalera.pythonanywhere.com:80/machineSync";
 int WiFiStatus = 0;
 
@@ -217,7 +217,7 @@ void setup_comunicacao_banco(void) {
   // Cria threads
   xTaskCreate(task_comunicacao, "Comunicacao", 4096, NULL, 5, NULL);
   xTaskCreate(task_processo, "Processo", 4096, NULL, 5, NULL);
-  xTaskCreate(task_monitor, "Monitoramento", 4096, NULL, 5, NULL);
+  //xTaskCreate(task_monitor, "Monitoramento", 4096, NULL, 5, NULL);
 }
 
 // --------------------------------------------- SETUP MAIN --------------------------------------------- 
@@ -667,6 +667,21 @@ void task_processo(void *pvParameters)
     }
 }
 
+void task_monitor()
+{
+    if(status == 1){
+      int container_coleta = digitalRead(RETURNING_CONTAINER_FIM_CURSO_PIN);
+      int porta = digitalRead(COLLECTING_CONTAINER_PORTINHA_FIM_CURSO_PIN);
+
+      if (container_coleta == LOW){
+        errorsProcessGui[3] = 40;
+      }
+      if (porta == LOW){
+        errorsProcessGui[5] = 60;
+      }
+    }
+}
+
 void task_comunicacao(void *pvParameters)
 {
     while (1)
@@ -677,10 +692,11 @@ void task_comunicacao(void *pvParameters)
         //Espera WiFi subir
         while(WiFi.status() != WL_CONNECTED){
           WiFiStatus = 0; 
+          task_monitor();
           delay(50);
         }
         WiFiStatus = 1;
-      
+        task_monitor();
         WiFiClient client;
         HTTPClient http;
       
@@ -779,24 +795,10 @@ void task_comunicacao(void *pvParameters)
         }
 
         http.end();
+
+        task_monitor();
         
-        delay(10000);
+        delay(5000);
     }
 }
 
-void task_monitor(void *pvParameters)
-{
-    if(status == 1){
-      int container_coleta = digitalRead(RETURNING_CONTAINER_FIM_CURSO_PIN);
-      int porta = digitalRead(COLLECTING_CONTAINER_PORTINHA_FIM_CURSO_PIN);
-
-      if (container_coleta == LOW){
-        errorsProcessGui[3] = 40;
-      }
-      if (porta == LOW){
-        errorsProcessGui[5] = 60;
-      }
-    }
-
-    delay(500);
-}
