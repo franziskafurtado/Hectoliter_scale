@@ -220,7 +220,7 @@ void setup_comunicacao_banco(void) {
   // Cria threads
   xTaskCreate(task_comunicacao, "Comunicacao", 4096, NULL, 5, NULL); 
   xTaskCreate(task_processo, "Processo", 4096, NULL, 5, NULL);
-  xTaskCreate(task_monitor, "Monitoramento", 128, NULL, 5, NULL);
+  // xTaskCreate(task_monitor, "Monitoramento", 128, NULL, 5, NULL);
 }
 
 // --------------------------------------------- SETUP MAIN --------------------------------------------- 
@@ -304,23 +304,10 @@ void acelerometro(void) {
   med_y = a.acceleration.y;
   med_z = a.acceleration.z;
 
-  if (cont < 10) {
-    cont += 1;
-    med_x_inicial = a.acceleration.x;
-    med_y_inicial = a.acceleration.y;
-    med_z_inicial = a.acceleration.z;
-  }
-
   if (((med_x > med_x_inicial + 1) || (med_x < med_x_inicial - 1)) || 
       ((med_y > med_y_inicial + 1) || (med_y < med_y_inicial - 1)) ||
       ((med_z > med_z_inicial + 1) || (med_z < med_z_inicial - 1))) {
-    Serial.println("MEXEU!");
-    digitalWrite(LED_RETURNING_PHASE, HIGH);
-    digitalWrite(LED_MEASURING_PHASE, HIGH);
-  }
-  else {
-    digitalWrite(LED_RETURNING_PHASE, LOW);
-    digitalWrite(LED_MEASURING_PHASE, LOW);
+    errorsProcessGui[6] = 70;
   }
 }
 
@@ -355,6 +342,7 @@ void verificando_nivel_semente(void) {
 // ---- SERVO MOTOR
 void ativar_alcapao_collecting_container(void) {
   delay(5000);
+  acelerometro();
   servoCollectingContainer.write(180);
   delay(5000);
   // Verificar pelo potenciometro se o servo foi ativao corretamente        <- 1 Potenciometro
@@ -362,6 +350,7 @@ void ativar_alcapao_collecting_container(void) {
   // if ((servoPosition > 200) || (servoPosition < -20)) {
   //   errorsProcessGui[0] = 10;
   // }
+  acelerometro();
   servoCollectingContainer.write(0);
   delay(5000);
   // Verificar pelo potenciometro se o servo foi ativao corretamente        <- 1 Potenciometro
@@ -369,6 +358,7 @@ void ativar_alcapao_collecting_container(void) {
   // if ((servoPosition > 200) || (servoPosition < -20)) {
   //   errorsProcessGui[0] = 10;
   // }
+  acelerometro();
   servoCollectingContainer.write(180);
   delay(2000);
   // Verificar pelo potenciometro se o servo foi ativao corretamente        <- 1 Potenciometro
@@ -395,19 +385,23 @@ void collectingPhase(void) {
   // Verificar o sensor IR se está acusando o nivel certo                   <- Sensor IR
   verificando_nivel_semente();
   delay(500);
+  acelerometro();
 
   // Ativar o servo motor do alcapao 1                                      <- 1 Servo Motor
   ativar_alcapao_collecting_container();
+  acelerometro();
 }
 
 
 // --------------------------------------------- FUNCOES PARA O MEASURING PHASE
 // ---- MOTOR VIBRACAO
 void vibrar_measuring_container(void) {
+  acelerometro();
   digitalWrite(MOTOR_VIBRACAP_PIN, HIGH);
 
   delay(5000);
 
+  acelerometro();
   digitalWrite(MOTOR_VIBRACAP_PIN, LOW);
 }
 
@@ -427,6 +421,7 @@ void nivelamento_amostra(int etapa_parametro, int direcao_parametro) {
       digitalWrite(DIR, direcao);
 
       while ((digitalRead(MOTOR_PASSO_LIMIT_DIREITA_FIM_CURSO_PIN) != HIGH) && (digitalRead(MOTOR_PASSO_LIMIT_ESQUERDA_FIM_CURSO_PIN) != HIGH)) {
+        acelerometro();
         digitalWrite(STEP, HIGH);
         delayMicroseconds(500);
         digitalWrite(STEP, LOW);
@@ -446,17 +441,20 @@ void nivelamento_amostra(int etapa_parametro, int direcao_parametro) {
         etapa = 0;
         quantidade += 1;
         cont_timeout_nivelamento = 0;
+        acelerometro();
     }
     else if (digitalRead(MOTOR_PASSO_LIMIT_ESQUERDA_FIM_CURSO_PIN) == HIGH){
         direcao = 1;
         etapa = 0;
         quantidade += 1;
         cont_timeout_nivelamento = 0;
+        acelerometro();
     }
     if (etapa == 0){
         digitalWrite(DIR, direcao);
 
         while ((digitalRead(MOTOR_PASSO_LIMIT_DIREITA_FIM_CURSO_PIN) == HIGH) || (digitalRead(MOTOR_PASSO_LIMIT_ESQUERDA_FIM_CURSO_PIN) == HIGH)) {
+          acelerometro();
           digitalWrite(STEP, HIGH);
           delayMicroseconds(500);
           digitalWrite(STEP, LOW);
@@ -480,14 +478,17 @@ void nivelamento_amostra(int etapa_parametro, int direcao_parametro) {
 // ---- CELULA CARGA
 int medicao_amostra(void) {
   if (scale.is_ready()) {
+    acelerometro();
     delay(1000);
     scale.set_scale(639737);
+    acelerometro();
     delay(500);
     scale.tare();
     long reading = scale.read();
     Serial.print("HX711 reading: ");
     Serial.println(reading);
 
+    acelerometro();
     delay(500);
     return reading;
   } else {
@@ -501,6 +502,7 @@ int medicao_amostra(void) {
 // ---- SERVO MOTOR
 void ativar_alcapao_measuring_container(void) {
   delay(5000);
+  acelerometro();
   servoMeasuringContainer.write(180);
   delay(5000);
   // Verificar pelo potenciometro se o servo foi ativao corretamente        <- 1 Potenciometro
@@ -508,6 +510,7 @@ void ativar_alcapao_measuring_container(void) {
   // if ((servoPosition > 200) || (servoPosition < -20)) {
   //   errorsProcessGui[1] = 20;
   // }
+  acelerometro();
   servoMeasuringContainer.write(0);
   delay(5000);
   // Verificar pelo potenciometro se o servo foi ativao corretamente        <- 1 Potenciometro
@@ -515,6 +518,7 @@ void ativar_alcapao_measuring_container(void) {
   // if ((servoPosition > 200) || (servoPosition < -20)) {
   //   errorsProcessGui[1] = 20;
   // }
+  acelerometro();
   servoMeasuringContainer.write(180);
   delay(2000);
   // Verificar pelo potenciometro se o servo foi ativao corretamente        <- 1 Potenciometro
@@ -559,6 +563,7 @@ void returningPhase(void) {
   // Vai verificando se o container de retorno saiu ou nao pelo fim de curso
   delay(5000);
   while(porta_entrada_OU_sem_container_coleta()){
+    acelerometro();
     delay(100);
   }
 
@@ -595,6 +600,13 @@ void loop_processo(void) {
     setError(err, n);
   }
   setRunning();
+
+  // Iniciando os valores padroes do acelerometro
+  sensors_event_t a, g, temp;
+  mpu.getEvent(&a, &g, &temp);
+  med_x_inicial = a.acceleration.x;
+  med_y_inicial = a.acceleration.y;
+  med_z_inicial = a.acceleration.z;
 
 
   
@@ -664,7 +676,7 @@ void task_processo(void *pvParameters)
     }
 }
 
-void task_monitor(void *pvParameters)
+void task_monitor()
 {
     if(status == 1){
       int container_coleta = digitalRead(RETURNING_CONTAINER_FIM_CURSO_PIN);
@@ -676,13 +688,7 @@ void task_monitor(void *pvParameters)
       if (porta == LOW){
         errorsProcessGui[5] = 60;
       }
-
-      delay(1000);
-
-
-
     }
-    delay(1000);
 }
 
 void task_comunicacao(void *pvParameters)
@@ -694,10 +700,12 @@ void task_comunicacao(void *pvParameters)
         Serial.println(iniciar);
         //Espera WiFi subir
         while(WiFi.status() != WL_CONNECTED){
-          WiFiStatus = 0;
+          WiFiStatus = 0; 
+          task_monitor();
           delay(50);
         }
         WiFiStatus = 1;
+        task_monitor();
         WiFiClient client;
         HTTPClient http;
       
@@ -796,8 +804,9 @@ void task_comunicacao(void *pvParameters)
         }
 
         http.end();
+
+        task_monitor();
         
         delay(5000);
     }
 }
-
