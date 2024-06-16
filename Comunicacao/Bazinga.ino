@@ -312,9 +312,9 @@ void acelerometro(void) {
 }
 
 void resetServos() {
-  servoCollectingContainer.write(180);
+  servoCollectingContainer.write(175);
   delay(2000);
-  servoMeasuringContainer.write(180);
+  servoMeasuringContainer.write(175);
   delay(1000);
 }
 
@@ -343,7 +343,7 @@ void verificando_nivel_semente(void) {
 void ativar_alcapao_collecting_container(void) {
   delay(5000);
   acelerometro();
-  servoCollectingContainer.write(180);
+  servoCollectingContainer.write(175);
   delay(5000);
   // Verificar pelo potenciometro se o servo foi ativao corretamente        <- 1 Potenciometro
   // int servoPosition = map(analogRead(POTENCIOMETER_COLLECTINH_CONTAINER_PIN), 0, 4096, 0, 180);
@@ -359,7 +359,7 @@ void ativar_alcapao_collecting_container(void) {
   //   errorsProcessGui[0] = 10;
   // }
   acelerometro();
-  servoCollectingContainer.write(180);
+  servoCollectingContainer.write(175);
   delay(2000);
   // Verificar pelo potenciometro se o servo foi ativao corretamente        <- 1 Potenciometro
   // servoPosition = map(analogRead(POTENCIOMETER_COLLECTINH_CONTAINER_PIN), 0, 4096, 0, 180);
@@ -503,7 +503,7 @@ int medicao_amostra(void) {
 void ativar_alcapao_measuring_container(void) {
   delay(5000);
   acelerometro();
-  servoMeasuringContainer.write(180);
+  servoMeasuringContainer.write(175);
   delay(5000);
   // Verificar pelo potenciometro se o servo foi ativao corretamente        <- 1 Potenciometro
   // int servoPosition = map(analogRead(POTENCIOMETER_MEASURING_CONTAINER_PIN), 0, 4096, 0, 180);
@@ -519,7 +519,7 @@ void ativar_alcapao_measuring_container(void) {
   //   errorsProcessGui[1] = 20;
   // }
   acelerometro();
-  servoMeasuringContainer.write(180);
+  servoMeasuringContainer.write(175);
   delay(2000);
   // Verificar pelo potenciometro se o servo foi ativao corretamente        <- 1 Potenciometro
   // int servoPosition = map(analogRead(POTENCIOMETER_MEASURING_CONTAINER_PIN), 0, 4096, 0, 180);
@@ -545,12 +545,13 @@ int measuringPhase(void) {
   nivelamento_amostra(1, 1);
 
   // Faz a medida da amostra                                                <- Celula de carga
-  int peso = medicao_amostra();
+  // int peso = medicao_amostra();
 
   // Ativa o servo motor para liberar o alcapao                             <- 1 Servo Motor
   ativar_alcapao_measuring_container();
 
-  return peso;
+  // return peso;
+  return 0;
 }
 
 // --------------------------------------------- RETURNING PHASE
@@ -638,8 +639,8 @@ void loop_processo(void) {
   delay(500);
 
   // Chama a funcao para mandar os dados pro banco
-  fim_processo(peso, 0.712);
-  // fim_processo(143.7, 0.712);
+  // fim_processo(peso, 0.712);
+  fim_processo(144.2, 0.712);
 }
 
 // --------------------------------------------- VOID LOOP --------------------------------------------- 
