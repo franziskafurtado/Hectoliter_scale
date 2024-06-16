@@ -229,7 +229,7 @@ void setup(void) {
   while (!Serial)
     delay(10);
 
-  // setup_accelerometer();
+  setup_accelerometer();
   setup_fim_curso();
   setup_servo_potenciometro();
   setup_motor_vibracao();  
