@@ -289,6 +289,8 @@ def getMachine(id):
     except database.peewee.DoesNotExist:
         return flask.jsonify({'error':'Machine not found'}), 404
 
+    cancelTimeoutProcess()
+
     ret = {
         "id": machine.id,
         "status": machine.status,
@@ -451,7 +453,7 @@ def index():
     return flask.redirect('https://parallel-scaffold-ec7.notion.site/Hectoliter-scale-e9c8e874d7f0444c88b8114017271cce', code=302)
 
 def cancelTimeoutProcess():
-    machines = database.Machine.select().where(database.Machine.runningProcess.is_null(False) & (database.Machine.lastUpdate < (datetime.datetime.now() - datetime.timedelta(minutes=10))))
+    machines = database.Machine.select().where(database.Machine.runningProcess.is_null(False) & (database.Machine.lastUpdate < (datetime.datetime.now() - datetime.timedelta(minutes=3))))
 
     for m in machines:
         try:
