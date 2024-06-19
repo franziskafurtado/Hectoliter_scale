@@ -1,0 +1,28 @@
+#define RETURNING_CONTAINER_FIM_CURSO_PIN 34
+#define COLLECTING_CONTAINER_PORTINHA_FIM_CURSO_PIN 35
+#define MOTOR_PASSO_LIMIT_DIREITA_FIM_CURSO_PIN 17
+#define MOTOR_PASSO_LIMIT_ESQUERDA_FIM_CURSO_PIN 16
+
+void setup() {
+  Serial.begin(115200);
+  pinMode(RETURNING_CONTAINER_FIM_CURSO_PIN, INPUT_PULLDOWN);
+  pinMode(COLLECTING_CONTAINER_PORTINHA_FIM_CURSO_PIN, INPUT_PULLDOWN);
+  pinMode(MOTOR_PASSO_LIMIT_DIREITA_FIM_CURSO_PIN, INPUT_PULLUP);
+  pinMode(MOTOR_PASSO_LIMIT_ESQUERDA_FIM_CURSO_PIN, INPUT_PULLDOWN);
+}
+
+void loop() {
+  Serial.println("RETORNO");
+  Serial.println(digitalRead(RETURNING_CONTAINER_FIM_CURSO_PIN));
+  delay(100);
+  Serial.println("COLETA");
+  Serial.println(digitalRead(COLLECTING_CONTAINER_PORTINHA_FIM_CURSO_PIN));
+  delay(100);
+  Serial.println("DIREITA");
+  Serial.println(digitalRead(MOTOR_PASSO_LIMIT_DIREITA_FIM_CURSO_PIN));
+  delay(100);
+  Serial.println("ESQUERDA");
+  Serial.println(digitalRead(MOTOR_PASSO_LIMIT_ESQUERDA_FIM_CURSO_PIN));
+  delay(1000);
+  Serial.println("--------------------- NOVAMENTE ---------------------");
+}
