@@ -28,8 +28,8 @@ int procStatus = 0;
 
 int errorsProcessGui[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 
-const char* ssid = "Renies e Camis 2.4G";
-const char* password = "abba2610";
+const char* ssid = "cncinator";
+const char* password = "doofenshmirtz";
 const char* apiUrl = "https://joaopedrogalera.pythonanywhere.com:80/machineSync";
 int WiFiStatus = 0;
 
@@ -72,6 +72,7 @@ Servo servoMeasuringContainer;
 #define LOADCELL_DOUT_PIN 19
 #define LOADCELL_SCK_PIN 18
 HX711 scale;
+float medida = 0;
 
 // --------------------------------------------- SENSOR IR
 #define SENSOR_IR 23
@@ -196,6 +197,9 @@ void setup_leds(void) {
 // --------------------------------------------- CELULA CARGA
 void setup_celula_carga(void) {
   scale.begin(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);
+  scale.set_scale(400.76);
+  delay(100);
+  scale.tare();
   delay(100);
 }
 
@@ -351,7 +355,7 @@ void ativar_alcapao_collecting_container(void) {
   //   errorsProcessGui[0] = 10;
   // }
   acelerometro();
-  servoCollectingContainer.write(0);
+  servoCollectingContainer.write(5);
   delay(5000);
   // Verificar pelo potenciometro se o servo foi ativao corretamente        <- 1 Potenciometro
   // servoPosition = map(analogRead(POTENCIOMETER_COLLECTINH_CONTAINER_PIN), 0, 4096, 0, 180);
@@ -423,9 +427,9 @@ void nivelamento_amostra(int etapa_parametro, int direcao_parametro) {
       while ((digitalRead(MOTOR_PASSO_LIMIT_DIREITA_FIM_CURSO_PIN) != HIGH) && (digitalRead(MOTOR_PASSO_LIMIT_ESQUERDA_FIM_CURSO_PIN) != HIGH)) {
         acelerometro();
         digitalWrite(STEP, HIGH);
-        delayMicroseconds(500);
+        delayMicroseconds(300);
         digitalWrite(STEP, LOW);
-        delayMicroseconds(500);
+        delayMicroseconds(300);
 
         cont_timeout_nivelamento += 1;
         if (cont_timeout_nivelamento >= 15000) {
@@ -456,9 +460,9 @@ void nivelamento_amostra(int etapa_parametro, int direcao_parametro) {
         while ((digitalRead(MOTOR_PASSO_LIMIT_DIREITA_FIM_CURSO_PIN) == HIGH) || (digitalRead(MOTOR_PASSO_LIMIT_ESQUERDA_FIM_CURSO_PIN) == HIGH)) {
           acelerometro();
           digitalWrite(STEP, HIGH);
-          delayMicroseconds(500);
+          delayMicroseconds(300);
           digitalWrite(STEP, LOW);
-          delayMicroseconds(500);
+          delayMicroseconds(300);
       
           cont_timeout_nivelamento += 1;
           if (cont_timeout_nivelamento >= 15000) {
@@ -476,21 +480,22 @@ void nivelamento_amostra(int etapa_parametro, int direcao_parametro) {
 }
 
 // ---- CELULA CARGA
-int medicao_amostra(void) {
+float medicao_amostra(void) {
   if (scale.is_ready()) {
     acelerometro();
     delay(1000);
-    scale.set_scale(639737);
+    // scale.set_scale(400.76);
     acelerometro();
     delay(500);
-    scale.tare();
-    long reading = scale.read();
+    // scale.tare();
+    // long reading = scale.read();
+    float medida = scale.get_units(50);
     Serial.print("HX711 reading: ");
-    Serial.println(reading);
+    Serial.println(medida);
 
     acelerometro();
     delay(500);
-    return reading;
+    return medida;
   } else {
     Serial.println("HX711 not found.");
   }
@@ -511,7 +516,7 @@ void ativar_alcapao_measuring_container(void) {
   //   errorsProcessGui[1] = 20;
   // }
   acelerometro();
-  servoMeasuringContainer.write(0);
+  servoMeasuringContainer.write(5);
   delay(5000);
   // Verificar pelo potenciometro se o servo foi ativao corretamente        <- 1 Potenciometro
   // int servoPosition = map(analogRead(POTENCIOMETER_MEASURING_CONTAINER_PIN), 0, 4096, 0, 180);
@@ -531,7 +536,7 @@ void ativar_alcapao_measuring_container(void) {
 // -----------------------------------------------------------------------------
 
 // --------------------------------------------- MEASURING PHASE
-int measuringPhase(void) {
+float measuringPhase(void) {
   // Acender o led da fase de medicao                                       <- 1 LED
   digitalWrite(LED_COLLECTING_PHASE, LOW);
   digitalWrite(LED_MEASURING_PHASE, HIGH);
@@ -545,13 +550,13 @@ int measuringPhase(void) {
   nivelamento_amostra(1, 1);
 
   // Faz a medida da amostra                                                <- Celula de carga
-  // int peso = medicao_amostra();
+  medida = medicao_amostra();
 
   // Ativa o servo motor para liberar o alcapao                             <- 1 Servo Motor
   ativar_alcapao_measuring_container();
 
-  // return peso;
-  return 0;
+  return medida;
+  // return 0;
 }
 
 // --------------------------------------------- RETURNING PHASE
@@ -609,7 +614,11 @@ void loop_processo(void) {
   med_y_inicial = a.acceleration.y;
   med_z_inicial = a.acceleration.z;
 
+  medida = 0;
 
+  // scale.set_scale();
+  // delay(1000);
+  scale.tare();
   
 
   collectingPhase();
@@ -621,7 +630,7 @@ void loop_processo(void) {
 
 
   
-  int peso = measuringPhase();
+  float peso = measuringPhase();
   // Acender o led da fase de medicao                                       <- 1 LED
   // Fazer o motor de vibracao acionar                                      <- Motor de Vibracao
   // Fazer o motor de passo acionar para frente e para tras                 <- Motor de passo
@@ -639,8 +648,12 @@ void loop_processo(void) {
   delay(500);
 
   // Chama a funcao para mandar os dados pro banco
+  if (peso < 0.0) {
+    peso = 0.0;
+  }
+  fim_processo(peso, (peso / 201.59) * 100.0);
   // fim_processo(peso, 0.712);
-  fim_processo(144.2, 0.712);
+  // fim_processo(144.2, 0.712); // Usar um rand aqui por "seguranca"
 }
 
 // --------------------------------------------- VOID LOOP --------------------------------------------- 
@@ -701,6 +714,7 @@ void task_comunicacao(void *pvParameters)
         Serial.println(iniciar);
         //Espera WiFi subir
         while(WiFi.status() != WL_CONNECTED){
+          Serial.println("wifi");
           WiFiStatus = 0; 
           task_monitor();
           delay(50);
@@ -811,3 +825,4 @@ void task_comunicacao(void *pvParameters)
         delay(5000);
     }
 }
+
